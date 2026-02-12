@@ -5,154 +5,167 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NOVATREX Exchange</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-
 body{
 margin:0;
 font-family:Poppins;
-background:#0c0f1a;
-color:white;
+background:#eef2fb;
 }
 
 /* HEADER */
-
 .header{
 display:flex;
-justify-content:space-between;
 align-items:center;
-padding:15px;
-background:#12162a;
-box-shadow:0 0 10px rgba(0,0,0,0.5);
+padding:10px;
+background:white;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
 
 .logo{
-font-size:22px;
-font-weight:700;
-color:#00e0ff;
+width:40px;
+height:40px;
+background:linear-gradient(45deg,#0099ff,#0044ff);
+border-radius:10px;
+margin-right:10px;
 }
 
-.slogan{
-font-size:11px;
-color:#999;
+.search{
+flex:1;
+background:#f0f0f0;
+border-radius:20px;
+padding:8px;
 }
 
-.auth-buttons button{
+/* AUTH BUTTON 3D */
+.auth-btn{
 margin-left:8px;
-}
-
-/* BUTTONS */
-
-button{
+padding:8px 15px;
 border:none;
-padding:10px 18px;
 border-radius:8px;
-font-weight:600;
+background:linear-gradient(145deg,#00c6ff,#0072ff);
+color:white;
 cursor:pointer;
-transition:0.3s;
+box-shadow:0 4px 0 #004a9f;
+transition:0.2s;
 }
 
-.primary{
-background:linear-gradient(45deg,#00e0ff,#007bff);
-color:white;
+.auth-btn:active{
+box-shadow:none;
+transform:translateY(4px);
 }
 
-.primary:hover{
-transform:scale(1.05);
-}
-
-.secondary{
-background:#1c2138;
-color:white;
-}
-
-/* DASHBOARD */
-
-.dashboard{
-padding:20px;
-display:none;
-}
-
-.balance-box{
-background:#12162a;
+/* BALANCE */
+.balance{
+background:white;
+margin:15px;
 padding:20px;
 border-radius:15px;
-margin-bottom:20px;
 }
 
-.balance-box h1{
-margin:5px 0;
-color:#00e0ff;
+.deposit-btn{
+float:right;
+background:linear-gradient(145deg,#00c6ff,#00ffcc);
+padding:10px 15px;
+border-radius:10px;
+color:white;
+cursor:pointer;
+box-shadow:0 4px 0 #00a389;
 }
 
 /* ICON GRID */
-
 .icon-grid{
 display:grid;
 grid-template-columns:repeat(4,1fr);
 text-align:center;
-margin-top:20px;
+margin-top:15px;
 }
 
 .icon-grid div{
-padding:12px;
-background:#161b31;
-margin:5px;
-border-radius:12px;
+font-size:12px;
+padding:10px;
 cursor:pointer;
-transition:0.3s;
 }
 
-.icon-grid div:hover{
-background:#00e0ff;
-color:black;
+/* BANNERS */
+.banner{
+background:white;
+margin:15px;
+border-radius:15px;
+padding:15px;
+}
+
+/* REWARD */
+.reward{
+background:linear-gradient(45deg,#0099ff,#00d4ff);
+color:white;
+padding:15px;
+margin:15px;
+border-radius:15px;
+display:flex;
+justify-content:space-between;
 }
 
 /* MARKET */
-
 .market{
-background:#12162a;
-padding:20px;
+background:white;
+margin:15px;
+padding:15px;
 border-radius:15px;
 }
 
 .wallet{
 display:flex;
 justify-content:space-between;
-padding:12px 0;
-border-bottom:1px solid #1e2340;
+padding:10px 0;
+border-bottom:1px solid #eee;
 }
 
-/* MODAL */
+/* FOOTER */
+.footer{
+position:fixed;
+bottom:0;
+width:100%;
+background:white;
+display:flex;
+justify-content:space-around;
+padding:10px 0;
+box-shadow:0 -2px 5px rgba(0,0,0,0.1);
+}
 
+.footer div{
+font-size:12px;
+text-align:center;
+cursor:pointer;
+}
+
+/* MODAL LOGIN */
 .modal{
 position:fixed;
 top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.7);
+background:rgba(0,0,0,0.6);
 display:none;
 justify-content:center;
 align-items:center;
 }
 
 .modal-box{
-background:#12162a;
-padding:25px;
-border-radius:15px;
-width:300px;
+background:white;
+padding:20px;
+border-radius:12px;
+width:280px;
 }
 
 .modal-box input{
 width:100%;
 padding:10px;
-margin:8px 0;
+margin:6px 0;
 border-radius:8px;
-border:none;
-background:#1c2138;
-color:white;
+border:1px solid #ddd;
 }
 
 </style>
@@ -162,31 +175,24 @@ color:white;
 
 <!-- HEADER -->
 <div class="header">
-<div>
-<div class="logo">NOVATREX</div>
-<div class="slogan">Trade The Future Securely</div>
+<div class="logo"></div>
+<input class="search" placeholder="Search">
+
+<button class="auth-btn" onclick="openLogin()">Login</button>
+<button class="auth-btn" onclick="openRegister()">Register</button>
 </div>
 
-<div class="auth-buttons">
-<button class="secondary" onclick="showLogin()">Login</button>
-<button class="primary" onclick="showRegister()">Register</button>
-</div>
-</div>
-
-<!-- DASHBOARD -->
-<div class="dashboard" id="dashboard">
-
-<div class="balance-box">
+<!-- BALANCE -->
+<div class="balance">
 <h4>Balance (USDT)</h4>
 <h1 id="balance">0.00</h1>
-<button class="primary" onclick="showDeposit()">Deposit</button>
-</div>
+<div class="deposit-btn" onclick="secureAction(deposit)">Deposit</div>
 
 <div class="icon-grid">
-<div onclick="alert('Recharge')">Recharge</div>
-<div onclick="withdraw()">Withdraw</div>
-<div onclick="alert('Invitation')">Invitation</div>
-<div onclick="alert('Certification')">Certification</div>
+<div onclick="secureAction(recharge)">Recharge</div>
+<div onclick="secureAction(withdraw)">Withdraw</div>
+<div onclick="secureAction(invite)">Invitation</div>
+<div onclick="secureAction(cert)">Certification</div>
 </div>
 
 <div class="icon-grid">
@@ -196,134 +202,158 @@ color:white;
 <div>GameFi</div>
 </div>
 
-<br>
+</div>
 
+<!-- BANNER -->
+<div class="banner">
+<h3>One Stop Service For Crypto NOVATREX</h3>
+<p>Trading • Marketing • History</p>
+</div>
+
+<!-- REWARD -->
+<div class="reward">
+<div>Reward Center</div>
+<div>More Advantages ↓</div>
+</div>
+
+<!-- GRAPH -->
+<div class="banner">
+<div id="tradingview_chart"></div>
+</div>
+
+<!-- MARKET -->
 <div class="market">
 <h3>Best Movements</h3>
 
 <div class="wallet">
 <div>Novacoin</div>
-<div id="novaPrice">1.00</div>
+<div id="novacoinPrice">1.00</div>
 </div>
 
 <div class="wallet">
-<div>BTC / USDT</div>
+<div>BTC/USDT</div>
 <div id="btc">Loading...</div>
 </div>
 
 <div class="wallet">
-<div>ETH / USDT</div>
+<div>ETH/USDT</div>
 <div id="eth">Loading...</div>
 </div>
 
 </div>
 
+<!-- FOOTER -->
+<div class="footer">
+<div>🏠 Home</div>
+<div onclick="secureAction(()=>alert('Market'))">📊 Market</div>
+<div onclick="secureAction(()=>alert('Trade Panel'))">💹 Trade</div>
+<div>🚚 Delivery</div>
+<div onclick="secureAction(()=>alert('Wallet'))">👛 Wallet</div>
 </div>
 
 <!-- LOGIN MODAL -->
-<div class="modal" id="loginModal">
+<div class="modal" id="loginBox">
 <div class="modal-box">
 <h3>Login</h3>
-<input id="loginEmail" placeholder="Email">
-<input id="loginPass" type="password" placeholder="Password">
-<button class="primary" onclick="login()">Login</button>
+<input id="logEmail" placeholder="Email">
+<input id="logPass" type="password" placeholder="Password">
+<button class="auth-btn" onclick="login()">Login</button>
 </div>
 </div>
 
 <!-- REGISTER MODAL -->
-<div class="modal" id="registerModal">
+<div class="modal" id="registerBox">
 <div class="modal-box">
-<h3>Create Account</h3>
+<h3>Register</h3>
 <input id="regEmail" placeholder="Email">
 <input id="regPass" type="password" placeholder="Password">
-<button class="primary" onclick="register()">Register</button>
+<button class="auth-btn" onclick="register()">Register</button>
 </div>
 </div>
 
-<!-- DEPOSIT MODAL -->
-<div class="modal" id="depositModal">
-<div class="modal-box">
-<h3>Deposit USDT</h3>
-<input id="depositAmount" placeholder="Amount">
-<button class="primary" onclick="deposit()">Confirm</button>
-</div>
-</div>
+<script src="https://s3.tradingview.com/tv.js"></script>
 
 <script>
 
-/* USERS DEMO STORAGE */
+/* TRADING GRAPH */
+new TradingView.widget({
+width:"100%",
+height:300,
+symbol:"BINANCE:BTCUSDT",
+interval:"5",
+container_id:"tradingview_chart"
+});
 
-let users = JSON.parse(localStorage.getItem("users") || "{}");
-let currentUser = null;
+/* USER STORAGE */
+let users = JSON.parse(localStorage.getItem("users")||"{}");
+let currentUser=null;
 
-/* AUTH */
-
-function showLogin(){
-loginModal.style.display="flex";
+function openLogin(){
+loginBox.style.display="flex";
 }
 
-function showRegister(){
-registerModal.style.display="flex";
+function openRegister(){
+registerBox.style.display="flex";
 }
 
 function register(){
-let email = regEmail.value;
-let pass = regPass.value;
-
-users[email] = {password:pass,balance:0};
+users[regEmail.value]={password:regPass.value,balance:0};
 localStorage.setItem("users",JSON.stringify(users));
-
-alert("Account Created!");
-registerModal.style.display="none";
+alert("Account Created");
+registerBox.style.display="none";
 }
 
 function login(){
-let email = loginEmail.value;
-let pass = loginPass.value;
-
-if(users[email] && users[email].password===pass){
-currentUser = email;
-dashboard.style.display="block";
-loginModal.style.display="none";
+if(users[logEmail.value] && users[logEmail.value].password===logPass.value){
+currentUser=logEmail.value;
 updateBalance();
+loginBox.style.display="none";
+alert("Welcome Trader");
 }else{
-alert("Wrong login");
+alert("Wrong Login");
 }
+}
+
+/* SECURITY CHECK */
+function secureAction(action){
+if(!currentUser){
+alert("Login First To Trade");
+return;
+}
+action();
 }
 
 /* BALANCE */
-
 function updateBalance(){
-balance.innerText = users[currentUser].balance.toFixed(2);
+balance.innerText=users[currentUser].balance.toFixed(2);
 }
 
-/* DEPOSIT */
-
-function showDeposit(){
-depositModal.style.display="flex";
-}
-
+/* TRADING ACTIONS */
 function deposit(){
-let amount = parseFloat(depositAmount.value);
-users[currentUser].balance += amount;
-localStorage.setItem("users",JSON.stringify(users));
+users[currentUser].balance+=50;
 updateBalance();
-depositModal.style.display="none";
 }
-
-/* WITHDRAW */
 
 function withdraw(){
-users[currentUser].balance -= 10;
+users[currentUser].balance-=10;
 updateBalance();
+}
+
+function recharge(){ deposit(); }
+
+function invite(){
+alert("Invite link generated");
+}
+
+function cert(){
+alert("Certification Completed");
 }
 
 /* PRICE SIMULATION */
-
 setInterval(()=>{
-novaPrice.innerText = (1 + Math.random()*0.2).toFixed(2);
-btc.innerText = (80000 + Math.random()*2000).toFixed(2);
-eth.innerText = (4000 + Math.random()*500).toFixed(2);
+novacoinPrice.innerText=(1+Math.random()*0.2).toFixed(2);
+btc.innerText=(80000+Math.random()*2000).toFixed(2);
+eth.innerText=(4000+Math.random()*500).toFixed(2);
 },4000);
 
 </script>
