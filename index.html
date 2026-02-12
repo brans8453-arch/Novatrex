@@ -3,35 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NOVATREX Exchange - Prototype Public</title>
+<title>NOVATREX Exchange Pro</title>
 <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
 <style>
-/* --- Global --- */
-body { margin:0; font-family:'Montserrat',sans-serif; background:#0A1F44; color:#fff; }
-header { background:#0A1F44; display:flex; justify-content:space-between; align-items:center; padding:10px 20px; border-bottom:1px solid #2CA8FF; }
-header h1 { color:#F5B800; font-size:1.5em; }
-.ticker { display:flex; gap:15px; overflow-x:auto; white-space:nowrap; padding-left:10px; }
-.ticker span { padding:5px 10px; border-radius:5px; background:#112A55; }
-.flex { display:flex; }
-.sidebar { width:200px; background:#112A55; padding:10px; height:calc(100vh - 60px); overflow-y:auto; }
-.sidebar h3 { text-align:center; margin-top:0; }
-.sidebar ul { list-style:none; padding:0; margin:0; }
-.sidebar li { padding:10px; margin:5px 0; background:#0A1F44; border-radius:5px; cursor:pointer; }
-.sidebar li:hover { background:#2CA8FF; }
-.main { flex:1; padding:10px; display:flex; flex-direction:column; gap:10px; }
-.right-panel { width:300px; background:#112A55; padding:15px; border-radius:10px; margin-left:10px; height:fit-content; }
-.card { background:#112A55; padding:15px; margin-bottom:10px; border-radius:10px; }
-#chart { height:400px; width:100%; }
-table { width:100%; border-collapse:collapse; margin-top:10px; }
-th,td { padding:5px; text-align:center; }
-th { background:#112A55; }
-td { background:#0A1F44; }
-.green { color:#2CA8FF; }
-.red { color:#FF4D4D; }
-input, select { padding:5px; border-radius:5px; border:none; margin:3px 0; width:100%; box-sizing:border-box; }
-.btn { background:#F5B800; color:#0A1F44; border:none; padding:8px 15px; cursor:pointer; border-radius:5px; font-weight:bold; margin-top:5px; width:100%; }
-#orders, #history { max-height:150px; overflow-y:auto; background:#0A1F44; padding:10px; border-radius:5px; margin-top:10px; }
-.bottom-section { display:flex; gap:10px; }
+body{margin:0;font-family:'Montserrat',sans-serif;background:#0A1F44;color:#fff;}
+header{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;background:#0A1F44;border-bottom:1px solid #2CA8FF;}
+header h1{color:#F5B800;}
+.ticker{display:flex;gap:15px;overflow-x:auto;white-space:nowrap;}
+.ticker span{padding:5px 10px;border-radius:5px;background:#112A55;}
+.flex{display:flex;}
+.sidebar{width:220px;background:#112A55;padding:10px;height:calc(100vh - 60px);overflow-y:auto;}
+.sidebar h3{text-align:center;margin-top:0;}
+.sidebar ul{list-style:none;padding:0;margin:0;}
+.sidebar li{padding:10px;margin:5px 0;background:#0A1F44;border-radius:5px;cursor:pointer;}
+.sidebar li:hover{background:#2CA8FF;}
+.main{flex:1;padding:10px;display:flex;flex-direction:column;gap:10px;}
+.right-panel{width:300px;background:#112A55;padding:15px;border-radius:10px;margin-left:10px;height:fit-content;}
+.card{background:#112A55;padding:15px;margin-bottom:10px;border-radius:10px;}
+#chart{height:400px;width:100%;}
+table{width:100%;border-collapse:collapse;margin-top:10px;}
+th,td{padding:5px;text-align:center;}
+th{background:#112A55;}
+td{background:#0A1F44;}
+.green{color:#2CA8FF;}
+.red{color:#FF4D4D;}
+input,select{padding:5px;border-radius:5px;border:none;margin:3px 0;width:100%;box-sizing:border-box;}
+.btn{background:#F5B800;color:#0A1F44;border:none;padding:8px 15px;cursor:pointer;border-radius:5px;font-weight:bold;margin-top:5px;width:100%;}
+#orders,#history,#referral-log{max-height:150px;overflow-y:auto;background:#0A1F44;padding:10px;border-radius:5px;margin-top:10px;}
+.bottom-section{display:flex;gap:10px;}
 </style>
 </head>
 <body>
@@ -42,22 +41,23 @@ input, select { padding:5px; border-radius:5px; border:none; margin:3px 0; width
 </header>
 
 <div class="flex">
-  <!-- Sidebar crypto list -->
   <div class="sidebar">
     <h3>Cryptos</h3>
     <ul id="crypto-list"></ul>
+    <h3>Wallet</h3>
+    <div id="wallet-info"></div>
+    <h3>Parrainage</h3>
+    <div id="referral-info">Lien: <code>https://novatrex.com/ref/USER123</code></div>
+    <div id="referral-log"></div>
   </div>
 
-  <!-- Main content -->
   <div class="main">
-    <!-- Chart -->
     <div class="card">
       <h3 id="chart-title">NVC/USD</h3>
       <div id="chart"></div>
     </div>
 
     <div class="bottom-section">
-      <!-- Trading panel -->
       <div class="right-panel">
         <h3>Achat / Vente</h3>
         <select id="trade-crypto"></select>
@@ -70,13 +70,18 @@ input, select { padding:5px; border-radius:5px; border:none; margin:3px 0; width
 
         <h3>Historique</h3>
         <div id="history"></div>
+
+        <h3>Trading Automatique</h3>
+        <button class="btn" id="auto-btn">Activer Bot</button>
+        Seuil variation (%): <input type="number" id="auto-threshold" value="1">
+        Volume: <input type="number" id="auto-volume" value="50">
       </div>
     </div>
   </div>
 </div>
 
 <script>
-/* --- Crypto simulation --- */
+/* --- Crypto --- */
 let cryptos = [
   {name:'Novacoin', symbol:'NVC', price:0.24, change:0.5, balance:1200},
   {name:'Bitcoin', symbol:'BTC', price:27450, change:-0.3, balance:0.05},
@@ -85,19 +90,22 @@ let cryptos = [
   {name:'Tether', symbol:'USDT', price:1, change:0, balance:500}
 ];
 
-/* --- Sidebar crypto list --- */
+/* --- Sidebar et Wallet --- */
 const cryptoList=document.getElementById('crypto-list');
 const tradeSelect=document.getElementById('trade-crypto');
+const walletInfo=document.getElementById('wallet-info');
+const referralLog=document.getElementById('referral-log');
+
 function renderSidebar(){
-  cryptoList.innerHTML=''; tradeSelect.innerHTML='';
+  cryptoList.innerHTML=''; tradeSelect.innerHTML=''; walletInfo.innerHTML='';
   cryptos.forEach(c=>{
     const li=document.createElement('li');
     li.innerText=`${c.symbol} - $${c.price.toFixed(2)} (${c.change>=0?'+':''}${c.change}%)`;
     li.onclick=()=>selectCrypto(c.name);
     cryptoList.appendChild(li);
-    const opt=document.createElement('option');
-    opt.value=c.name; opt.innerText=c.name;
+    const opt=document.createElement('option'); opt.value=c.name; opt.innerText=c.name;
     tradeSelect.appendChild(opt);
+    walletInfo.innerHTML += `<p>${c.symbol}: ${c.balance.toFixed(2)}</p>`;
   });
 }
 renderSidebar();
@@ -107,7 +115,7 @@ const ticker=document.getElementById('ticker');
 function updateTicker(){
   ticker.innerHTML='';
   cryptos.forEach(c=>{
-    const span=document.createElement('span');
+    let span=document.createElement('span');
     span.innerHTML=`${c.symbol} $${c.price.toFixed(2)} ${c.change>=0?'+':''}${c.change}%`;
     span.style.color=c.change>=0?'#2CA8FF':'#FF4D4D';
     ticker.appendChild(span);
@@ -118,35 +126,31 @@ setInterval(()=>{
     let variation=(Math.random()*2-1)*0.5;
     c.price += variation; c.change = variation.toFixed(2);
   }); 
-  updateTicker();
-  updateChartData();
+  updateTicker(); renderSidebar(); updateChartData(); autoTradingStep();
 },2000);
 
-/* --- Chart candlestick dynamique --- */
+/* --- Chart candlestick --- */
 const chartContainer=document.getElementById('chart');
 const chart=LightweightCharts.createChart(chartContainer,{layout:{backgroundColor:'#112A55',textColor:'#fff'},grid:{vertLines:{color:'#1B3A66'},horzLines:{color:'#1B3A66'}},crosshair:{mode:0},rightPriceScale:{borderColor:'#2CA8FF'},timeScale:{borderColor:'#2CA8FF'}});
 const candleSeries=chart.addCandlestickSeries({upColor:'#2CA8FF',downColor:'#FF4D4D',borderVisible:false,wickUpColor:'#2CA8FF',wickDownColor:'#FF4D4D'});
-let candlesticks = [];
+let candlesticks=[];
 function initChart(){
-  let time = Math.floor(Date.now()/1000) - 60*60;
-  for(let i=0;i<30;i++){
-    candlesticks.push({time:time+i*60, open:0.2+Math.random()*0.05, high:0.25+Math.random()*0.05, low:0.18+Math.random()*0.05, close:0.2+Math.random()*0.05});
-  }
+  let time=Math.floor(Date.now()/1000)-60*60;
+  for(let i=0;i<30;i++){candlesticks.push({time:time+i*60, open:0.2+Math.random()*0.05, high:0.25+Math.random()*0.05, low:0.18+Math.random()*0.05, close:0.2+Math.random()*0.05});}
   candleSeries.setData(candlesticks);
 }
 initChart();
 function updateChartData(){
   const last=candlesticks[candlesticks.length-1];
   const newCandle={time:last.time+60, open:last.close, high:last.close+(Math.random()*0.02), low:last.close-(Math.random()*0.02), close:last.close+(Math.random()*0.02-0.01)};
-  candlesticks.push(newCandle);
-  if(candlesticks.length>50) candlesticks.shift();
+  candlesticks.push(newCandle); if(candlesticks.length>50) candlesticks.shift();
   candleSeries.setData(candlesticks);
 }
+function selectCrypto(name){document.getElementById('chart-title').innerText=name+'/USD'; tradeSelect.value=name;}
 
 /* --- Trading simulation --- */
 const ordersDiv=document.getElementById('orders');
 const historyDiv=document.getElementById('history');
-function selectCrypto(name){document.getElementById('chart-title').innerText=name+'/USD';tradeSelect.value=name;}
 function buyCrypto(){
   const amt=parseFloat(document.getElementById('trade-amount').value); 
   const crypto=tradeSelect.value;
@@ -154,6 +158,7 @@ function buyCrypto(){
   c.balance+=amt;
   ordersDiv.innerHTML=`<p>Achat ${amt} ${crypto}</p>`+ordersDiv.innerHTML;
   historyDiv.innerHTML=`<p>Achat ${amt} ${crypto}</p>`+historyDiv.innerHTML;
+  renderSidebar(); updateReferral(amt*0.01);
 }
 function sellCrypto(){
   const amt=parseFloat(document.getElementById('trade-amount').value); 
@@ -163,6 +168,33 @@ function sellCrypto(){
   c.balance-=amt;
   ordersDiv.innerHTML=`<p>Vente ${amt} ${crypto}</p>`+ordersDiv.innerHTML;
   historyDiv.innerHTML=`<p>Vente ${amt} ${crypto}</p>`+historyDiv.innerHTML;
+  renderSidebar(); updateReferral(amt*0.01);
+}
+
+/* --- Parrainage --- */
+let referralBonus=0;
+function updateReferral(bonus){
+  referralBonus += bonus;
+  referralLog.innerHTML=`<p>Bonus Parrain accumulé: $${referralBonus.toFixed(2)}</p>`;
+}
+
+/* --- Trading automatique --- */
+let autoActive=false;
+const autoBtn=document.getElementById('auto-btn');
+autoBtn.addEventListener('click',()=>{autoActive=!autoActive;autoBtn.innerText=autoActive?'Désactiver Bot':'Activer Bot';});
+function autoTradingStep(){
+  if(!autoActive) return;
+  const crypto=tradeSelect.value;
+  const threshold=parseFloat(document.getElementById('auto-threshold').value);
+  const volume=parseFloat(document.getElementById('auto-volume').value);
+  const c=cryptos.find(x=>x.name===crypto);
+  const change=(Math.random()*2-1)*2;
+  if(Math.abs(change)>=threshold){
+    c.balance += change>0?volume:-volume;
+    ordersDiv.innerHTML=`<p>Bot ${change>0?'Achat':'Vente'} ${volume} ${crypto}</p>`+ordersDiv.innerHTML;
+    historyDiv.innerHTML=`<p>Bot ${change>0?'Achat':'Vente'} ${volume} ${crypto}</p>`+historyDiv.innerHTML;
+    renderSidebar(); updateReferral(volume*0.005);
+  }
 }
 </script>
 
