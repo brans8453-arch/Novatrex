@@ -12,7 +12,7 @@
 body{
 margin:0;
 font-family:Poppins;
-background:#0c0f1a;
+background:#060b1f;
 color:white;
 }
 
@@ -23,49 +23,47 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 padding:15px;
-background:#12162a;
-box-shadow:0 0 10px rgba(0,0,0,0.6);
+background:#0c1333;
+backdrop-filter:blur(10px);
+box-shadow:0 0 20px rgba(0,0,0,0.6);
 }
 
 .logo{
 font-size:24px;
 font-weight:700;
-color:#ff3b3b;
+background:linear-gradient(45deg,#00eaff,#7a5cff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
 .slogan{
 font-size:11px;
-color:#aaa;
+color:#8c92b3;
 }
 
-/* ===== 3D BUTTON STYLE ===== */
+/* BUTTON PRO */
 
 button{
 border:none;
-padding:10px 20px;
+padding:10px 18px;
 border-radius:10px;
 font-weight:600;
 cursor:pointer;
 transition:0.3s;
-box-shadow:0 4px 10px rgba(0,0,0,0.5);
-}
-
-button:active{
-transform:translateY(2px);
-box-shadow:0 2px 5px rgba(0,0,0,0.5);
 }
 
 .primary{
-background:linear-gradient(145deg,#ff3b3b,#8c1d1d);
+background:linear-gradient(45deg,#00eaff,#7a5cff);
 color:white;
+box-shadow:0 0 15px rgba(0,234,255,0.4);
 }
 
 .secondary{
-background:linear-gradient(145deg,#2a2f4a,#1a1f35);
+background:#151c3f;
 color:white;
 }
 
-.primary:hover{
+button:hover{
 transform:scale(1.05);
 }
 
@@ -76,54 +74,68 @@ padding:20px;
 display:none;
 }
 
-.balance-box{
-background:#12162a;
+/* WALLET BOX */
+
+.wallet-box{
+background:rgba(20,25,60,0.6);
+backdrop-filter:blur(12px);
 padding:20px;
 border-radius:15px;
 margin-bottom:20px;
-text-align:center;
 }
 
-.balance-box h1{
-margin:5px 0;
-color:#ff3b3b;
+.balance{
+font-size:34px;
+font-weight:700;
+color:#00eaff;
 }
 
-/* ICON GRID */
+/* QUICK ACTIONS */
 
-.icon-grid{
+.quick{
 display:grid;
 grid-template-columns:repeat(4,1fr);
-text-align:center;
+gap:10px;
 margin-top:20px;
 }
 
-.icon-grid div{
-padding:12px;
-background:#161b31;
-margin:5px;
+.quick div{
+background:#121735;
+padding:14px;
 border-radius:12px;
+text-align:center;
 cursor:pointer;
 transition:0.3s;
 }
 
-.icon-grid div:hover{
-background:#ff3b3b;
+.quick div:hover{
+background:#00eaff;
+color:black;
 }
 
 /* MARKET */
 
 .market{
-background:#12162a;
+background:#121735;
 padding:20px;
 border-radius:15px;
+margin-top:20px;
 }
 
 .wallet{
 display:flex;
 justify-content:space-between;
 padding:12px 0;
-border-bottom:1px solid #1e2340;
+border-bottom:1px solid #20285c;
+}
+
+/* HISTORY */
+
+.history{
+background:#121735;
+padding:20px;
+border-radius:15px;
+margin-top:20px;
 }
 
 /* MODAL */
@@ -141,7 +153,7 @@ align-items:center;
 }
 
 .modal-box{
-background:#12162a;
+background:#121735;
 padding:25px;
 border-radius:15px;
 width:90%;
@@ -152,16 +164,16 @@ max-width:320px;
 width:100%;
 padding:10px;
 margin:8px 0;
-border-radius:8px;
 border:none;
-background:#1c2138;
+border-radius:8px;
+background:#1b2250;
 color:white;
 }
 
 /* MOBILE */
 
 @media(max-width:600px){
-.icon-grid{
+.quick{
 grid-template-columns:repeat(2,1fr);
 }
 }
@@ -176,10 +188,10 @@ grid-template-columns:repeat(2,1fr);
 
 <div>
 <div class="logo">NOVATREX</div>
-<div class="slogan">Trade The Future Securely</div>
+<div class="slogan">Next Generation Crypto Exchange</div>
 </div>
 
-<div class="auth-buttons">
+<div>
 <button class="secondary" onclick="showLogin()">Login</button>
 <button class="primary" onclick="showRegister()">Register</button>
 </div>
@@ -189,49 +201,46 @@ grid-template-columns:repeat(2,1fr);
 <!-- DASHBOARD -->
 <div class="dashboard" id="dashboard">
 
-<div class="balance-box">
-<h4>Balance (USDT)</h4>
-<h1 id="balance">0.00</h1>
-
-<!-- BOUTON DEPOSIT MIS EN HAUT + VISIBLE -->
+<!-- WALLET -->
+<div class="wallet-box">
+<div>Total Balance</div>
+<div class="balance" id="balance">0.00 USDT</div>
 <button class="primary" onclick="showDeposit()">Deposit</button>
-
 </div>
 
-<div class="icon-grid">
-<div onclick="alert('Recharge')">Recharge</div>
+<!-- QUICK ACTION -->
+<div class="quick">
+<div onclick="showDeposit()">Deposit</div>
 <div onclick="withdraw()">Withdraw</div>
-<div onclick="alert('Invitation')">Invitation</div>
-<div onclick="alert('Certification')">Certification</div>
+<div onclick="alert('Coming Soon')">Transfer</div>
+<div onclick="alert('Coming Soon')">Earn</div>
 </div>
 
-<div class="icon-grid">
-<div>Offers</div>
-<div>Ecosystem</div>
-<div>DeFi</div>
-<div>GameFi</div>
-</div>
-
-<br>
-
+<!-- MARKET -->
 <div class="market">
-<h3>Best Movements</h3>
+<h3>Market</h3>
 
 <div class="wallet">
-<div>Novacoin</div>
-<div id="novaPrice">1.00</div>
+<span>Novacoin</span>
+<span id="novaPrice">1.00</span>
 </div>
 
 <div class="wallet">
-<div>BTC / USDT</div>
-<div id="btc">Loading...</div>
+<span>BTC / USDT</span>
+<span id="btc">Loading...</span>
 </div>
 
 <div class="wallet">
-<div>ETH / USDT</div>
-<div id="eth">Loading...</div>
+<span>ETH / USDT</span>
+<span id="eth">Loading...</span>
 </div>
 
+</div>
+
+<!-- HISTORY -->
+<div class="history">
+<h3>Transactions</h3>
+<div id="historyList">No transaction</div>
 </div>
 
 </div>
@@ -268,35 +277,35 @@ grid-template-columns:repeat(2,1fr);
 <script>
 
 let users = JSON.parse(localStorage.getItem("users") || "{}");
-let currentUser = null;
+let currentUser=null;
 
-/* MODALS */
+/* MODAL */
 
-function showLogin(){ loginModal.style.display="flex"; }
-function showRegister(){ registerModal.style.display="flex"; }
-function showDeposit(){ depositModal.style.display="flex"; }
+function showLogin(){loginModal.style.display="flex";}
+function showRegister(){registerModal.style.display="flex";}
+function showDeposit(){depositModal.style.display="flex";}
 
-/* REGISTER VALIDATION */
+/* REGISTER */
 
 function register(){
 
-let email = regEmail.value.trim();
-let pass = regPass.value.trim();
+let email=regEmail.value.trim();
+let pass=regPass.value.trim();
 
-if(email==="" || pass===""){
-alert("Please fill all fields");
+if(!email || !pass){
+alert("Fill all fields");
 return;
 }
 
 if(users[email]){
-alert("Account already exists");
+alert("Account exists");
 return;
 }
 
-users[email]={password:pass,balance:0};
-localStorage.setItem("users",JSON.stringify(users));
+users[email]={password:pass,balance:0,history:[]};
+save();
 
-alert("Account Created Successfully");
+alert("Account created");
 registerModal.style.display="none";
 }
 
@@ -304,25 +313,32 @@ registerModal.style.display="none";
 
 function login(){
 
-let email = loginEmail.value.trim();
-let pass = loginPass.value.trim();
+let email=loginEmail.value.trim();
+let pass=loginPass.value.trim();
 
 if(users[email] && users[email].password===pass){
 
 currentUser=email;
 dashboard.style.display="block";
 loginModal.style.display="none";
-updateBalance();
+update();
 
 }else{
-alert("Wrong login details");
+alert("Wrong login");
 }
 }
 
-/* BALANCE */
+/* STORAGE */
 
-function updateBalance(){
-balance.innerText = users[currentUser].balance.toFixed(2);
+function save(){
+localStorage.setItem("users",JSON.stringify(users));
+}
+
+/* UPDATE UI */
+
+function update(){
+balance.innerText = users[currentUser].balance.toFixed(2)+" USDT";
+renderHistory();
 }
 
 /* DEPOSIT */
@@ -336,10 +352,12 @@ alert("Invalid amount");
 return;
 }
 
-users[currentUser].balance += amount;
-localStorage.setItem("users",JSON.stringify(users));
+users[currentUser].balance+=amount;
+users[currentUser].history.push("Deposit "+amount+" USDT");
 
-updateBalance();
+save();
+update();
+
 depositModal.style.display="none";
 }
 
@@ -347,13 +365,27 @@ depositModal.style.display="none";
 
 function withdraw(){
 
-if(users[currentUser].balance < 10){
+if(users[currentUser].balance<10){
 alert("Insufficient balance");
 return;
 }
 
-users[currentUser].balance -= 10;
-updateBalance();
+users[currentUser].balance-=10;
+users[currentUser].history.push("Withdraw 10 USDT");
+
+save();
+update();
+}
+
+/* HISTORY */
+
+function renderHistory(){
+
+let list=users[currentUser].history;
+
+historyList.innerHTML = list.length
+? list.map(t=>"<div>"+t+"</div>").join("")
+: "No transaction";
 }
 
 /* PRICE SIMULATION */
