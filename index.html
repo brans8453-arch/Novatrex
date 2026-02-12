@@ -5,194 +5,165 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NOVATREX Exchange</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
 
 body{
 margin:0;
 font-family:Poppins;
-background:#f2f3f7;
+background:#0c0f1a;
+color:white;
 }
 
 /* HEADER */
+
 .header{
 display:flex;
+justify-content:space-between;
 align-items:center;
-padding:10px;
-background:white;
-box-shadow:0 2px 5px rgba(0,0,0,0.08);
+padding:15px;
+background:#12162a;
+box-shadow:0 0 10px rgba(0,0,0,0.6);
 }
 
 .logo{
-width:40px;
-height:40px;
-background:linear-gradient(145deg,#c62828,#7a7a7a);
-border-radius:10px;
-margin-right:10px;
+font-size:24px;
+font-weight:700;
+color:#ff3b3b;
 }
 
-.search{
-flex:1;
-background:#eee;
-border-radius:20px;
-padding:8px;
-border:none;
+.slogan{
+font-size:11px;
+color:#aaa;
 }
 
-/* 3D BUTTON STYLE */
-.btn3d{
-margin-left:8px;
-padding:8px 15px;
+/* ===== 3D BUTTON STYLE ===== */
+
+button{
 border:none;
+padding:10px 20px;
 border-radius:10px;
-background:linear-gradient(145deg,#d32f2f,#616161);
-color:white;
+font-weight:600;
 cursor:pointer;
-box-shadow:0 4px 0 #3a3a3a;
-transition:0.2s;
-font-size:13px;
+transition:0.3s;
+box-shadow:0 4px 10px rgba(0,0,0,0.5);
 }
 
-.btn3d:active{
-transform:translateY(4px);
-box-shadow:none;
+button:active{
+transform:translateY(2px);
+box-shadow:0 2px 5px rgba(0,0,0,0.5);
 }
 
-/* BALANCE */
-.balance{
-background:white;
-margin:15px;
+.primary{
+background:linear-gradient(145deg,#ff3b3b,#8c1d1d);
+color:white;
+}
+
+.secondary{
+background:linear-gradient(145deg,#2a2f4a,#1a1f35);
+color:white;
+}
+
+.primary:hover{
+transform:scale(1.05);
+}
+
+/* DASHBOARD */
+
+.dashboard{
+padding:20px;
+display:none;
+}
+
+.balance-box{
+background:#12162a;
 padding:20px;
 border-radius:15px;
+margin-bottom:20px;
+text-align:center;
 }
 
-.deposit-btn{
-float:right;
-padding:10px 15px;
-border-radius:10px;
-background:linear-gradient(145deg,#d32f2f,#616161);
-color:white;
-cursor:pointer;
-box-shadow:0 4px 0 #3a3a3a;
+.balance-box h1{
+margin:5px 0;
+color:#ff3b3b;
 }
 
 /* ICON GRID */
+
 .icon-grid{
 display:grid;
 grid-template-columns:repeat(4,1fr);
 text-align:center;
-margin-top:15px;
+margin-top:20px;
 }
 
 .icon-grid div{
-font-size:12px;
-padding:10px;
+padding:12px;
+background:#161b31;
+margin:5px;
+border-radius:12px;
 cursor:pointer;
+transition:0.3s;
 }
 
-/* BANNERS */
-.banner{
-background:white;
-margin:15px;
-border-radius:15px;
-padding:15px;
-}
-
-/* REWARD */
-.reward{
-background:linear-gradient(145deg,#d32f2f,#757575);
-color:white;
-padding:15px;
-margin:15px;
-border-radius:15px;
-display:flex;
-justify-content:space-between;
+.icon-grid div:hover{
+background:#ff3b3b;
 }
 
 /* MARKET */
+
 .market{
-background:white;
-margin:15px;
-padding:15px;
+background:#12162a;
+padding:20px;
 border-radius:15px;
 }
 
 .wallet{
 display:flex;
 justify-content:space-between;
-padding:10px 0;
-border-bottom:1px solid #eee;
-}
-
-/* FOOTER */
-.footer{
-position:fixed;
-bottom:0;
-width:100%;
-background:white;
-display:flex;
-justify-content:space-around;
-padding:10px 0;
-box-shadow:0 -2px 5px rgba(0,0,0,0.1);
-}
-
-.footer div{
-font-size:12px;
-cursor:pointer;
-padding:6px 10px;
-border-radius:8px;
-background:linear-gradient(145deg,#d32f2f,#616161);
-color:white;
-box-shadow:0 3px 0 #3a3a3a;
-}
-
-.footer div:active{
-transform:translateY(3px);
-box-shadow:none;
+padding:12px 0;
+border-bottom:1px solid #1e2340;
 }
 
 /* MODAL */
+
 .modal{
 position:fixed;
 top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.6);
+background:rgba(0,0,0,0.8);
 display:none;
 justify-content:center;
 align-items:center;
-padding:10px;
 }
 
 .modal-box{
-background:white;
-padding:20px;
-border-radius:12px;
-width:100%;
+background:#12162a;
+padding:25px;
+border-radius:15px;
+width:90%;
 max-width:320px;
 }
 
 .modal-box input{
 width:100%;
-padding:12px;
-margin:6px 0;
+padding:10px;
+margin:8px 0;
 border-radius:8px;
-border:1px solid #ddd;
+border:none;
+background:#1c2138;
+color:white;
 }
 
-/* MOBILE RESPONSIVE */
-@media(max-width:480px){
+/* MOBILE */
 
-.balance h1{
-font-size:22px;
+@media(max-width:600px){
+.icon-grid{
+grid-template-columns:repeat(2,1fr);
 }
-
-.footer div{
-font-size:11px;
-}
-
 }
 
 </style>
@@ -202,25 +173,36 @@ font-size:11px;
 
 <!-- HEADER -->
 <div class="header">
-<div class="logo"></div>
-<input class="search" placeholder="Search">
 
-<button class="btn3d" onclick="openLogin()">Login</button>
-<button class="btn3d" onclick="openRegister()">Register</button>
+<div>
+<div class="logo">NOVATREX</div>
+<div class="slogan">Trade The Future Securely</div>
 </div>
 
-<!-- BALANCE -->
-<div class="balance">
+<div class="auth-buttons">
+<button class="secondary" onclick="showLogin()">Login</button>
+<button class="primary" onclick="showRegister()">Register</button>
+</div>
+
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+
+<div class="balance-box">
 <h4>Balance (USDT)</h4>
 <h1 id="balance">0.00</h1>
 
-<div class="deposit-btn" onclick="secureAction(deposit)">Deposit</div>
+<!-- BOUTON DEPOSIT MIS EN HAUT + VISIBLE -->
+<button class="primary" onclick="showDeposit()">Deposit</button>
+
+</div>
 
 <div class="icon-grid">
-<div onclick="secureAction(recharge)">Recharge</div>
-<div onclick="secureAction(withdraw)">Withdraw</div>
-<div onclick="secureAction(invite)">Invitation</div>
-<div onclick="secureAction(cert)">Certification</div>
+<div onclick="alert('Recharge')">Recharge</div>
+<div onclick="withdraw()">Withdraw</div>
+<div onclick="alert('Invitation')">Invitation</div>
+<div onclick="alert('Certification')">Certification</div>
 </div>
 
 <div class="icon-grid">
@@ -230,162 +212,154 @@ font-size:11px;
 <div>GameFi</div>
 </div>
 
-</div>
-
-<div class="banner">
-<h3>One Stop Service For Crypto NOVATREX</h3>
-<p>Trading • Marketing • History</p>
-</div>
-
-<div class="reward">
-<div>Reward Center</div>
-<div>More Advantages ↓</div>
-</div>
-
-<div class="banner">
-<div id="tradingview_chart"></div>
-</div>
+<br>
 
 <div class="market">
 <h3>Best Movements</h3>
 
 <div class="wallet">
 <div>Novacoin</div>
-<div id="novacoinPrice">1.00</div>
+<div id="novaPrice">1.00</div>
 </div>
 
 <div class="wallet">
-<div>BTC/USDT</div>
+<div>BTC / USDT</div>
 <div id="btc">Loading...</div>
 </div>
 
 <div class="wallet">
-<div>ETH/USDT</div>
+<div>ETH / USDT</div>
 <div id="eth">Loading...</div>
 </div>
 
 </div>
 
-<!-- FOOTER -->
-<div class="footer">
-<div>🏠</div>
-<div onclick="secureAction(()=>alert('Market'))">📊</div>
-<div onclick="secureAction(()=>alert('Trade'))">💹</div>
-<div>🚚</div>
-<div onclick="secureAction(()=>alert('Wallet'))">👛</div>
 </div>
 
 <!-- LOGIN -->
-<div class="modal" id="loginBox">
+<div class="modal" id="loginModal">
 <div class="modal-box">
 <h3>Login</h3>
-<input id="logEmail" placeholder="Email">
-<input id="logPass" type="password" placeholder="Password">
-<button class="btn3d" onclick="login()">Login</button>
+<input id="loginEmail" placeholder="Email">
+<input id="loginPass" type="password" placeholder="Password">
+<button class="primary" onclick="login()">Login</button>
 </div>
 </div>
 
 <!-- REGISTER -->
-<div class="modal" id="registerBox">
+<div class="modal" id="registerModal">
 <div class="modal-box">
 <h3>Create Account</h3>
 <input id="regEmail" placeholder="Email">
 <input id="regPass" type="password" placeholder="Password">
-<button class="btn3d" onclick="register()">Register</button>
+<button class="primary" onclick="register()">Register</button>
 </div>
 </div>
 
-<script src="https://s3.tradingview.com/tv.js"></script>
+<!-- DEPOSIT -->
+<div class="modal" id="depositModal">
+<div class="modal-box">
+<h3>Deposit USDT</h3>
+<input id="depositAmount" placeholder="Amount">
+<button class="primary" onclick="deposit()">Confirm</button>
+</div>
+</div>
 
 <script>
 
-new TradingView.widget({
-width:"100%",
-height:300,
-symbol:"BINANCE:BTCUSDT",
-interval:"5",
-container_id:"tradingview_chart"
-});
-
-/* USERS */
-let users = JSON.parse(localStorage.getItem("users")||"{}");
-let currentUser=null;
+let users = JSON.parse(localStorage.getItem("users") || "{}");
+let currentUser = null;
 
 /* MODALS */
-function openLogin(){ loginBox.style.display="flex"; }
-function openRegister(){ registerBox.style.display="flex"; }
+
+function showLogin(){ loginModal.style.display="flex"; }
+function showRegister(){ registerModal.style.display="flex"; }
+function showDeposit(){ depositModal.style.display="flex"; }
 
 /* REGISTER VALIDATION */
+
 function register(){
 
-if(!regEmail.value || !regPass.value){
+let email = regEmail.value.trim();
+let pass = regPass.value.trim();
+
+if(email==="" || pass===""){
 alert("Please fill all fields");
 return;
 }
 
-if(users[regEmail.value]){
-alert("User already exists");
+if(users[email]){
+alert("Account already exists");
 return;
 }
 
-users[regEmail.value]={password:regPass.value,balance:0};
+users[email]={password:pass,balance:0};
 localStorage.setItem("users",JSON.stringify(users));
+
 alert("Account Created Successfully");
-registerBox.style.display="none";
+registerModal.style.display="none";
 }
 
 /* LOGIN */
+
 function login(){
 
-if(!logEmail.value || !logPass.value){
-alert("Enter login details");
-return;
-}
+let email = loginEmail.value.trim();
+let pass = loginPass.value.trim();
 
-if(users[logEmail.value] && users[logEmail.value].password===logPass.value){
-currentUser=logEmail.value;
+if(users[email] && users[email].password===pass){
+
+currentUser=email;
+dashboard.style.display="block";
+loginModal.style.display="none";
 updateBalance();
-loginBox.style.display="none";
-alert("Welcome Trader");
-}else{
-alert("Invalid Login");
-}
-}
 
-/* SECURITY */
-function secureAction(action){
-if(!currentUser){
-alert("Login Required");
-return;
+}else{
+alert("Wrong login details");
 }
-action();
 }
 
 /* BALANCE */
+
 function updateBalance(){
-balance.innerText=users[currentUser].balance.toFixed(2);
+balance.innerText = users[currentUser].balance.toFixed(2);
 }
 
-/* TRADING */
+/* DEPOSIT */
+
 function deposit(){
-users[currentUser].balance+=50;
-updateBalance();
+
+let amount=parseFloat(depositAmount.value);
+
+if(isNaN(amount) || amount<=0){
+alert("Invalid amount");
+return;
 }
+
+users[currentUser].balance += amount;
+localStorage.setItem("users",JSON.stringify(users));
+
+updateBalance();
+depositModal.style.display="none";
+}
+
+/* WITHDRAW */
 
 function withdraw(){
-users[currentUser].balance-=10;
+
+if(users[currentUser].balance < 10){
+alert("Insufficient balance");
+return;
+}
+
+users[currentUser].balance -= 10;
 updateBalance();
 }
 
-function recharge(){ deposit(); }
+/* PRICE SIMULATION */
 
-function invite(){ alert("Invite link generated"); }
-
-function cert(){ alert("Certification Completed"); }
-
-/* PRICES */
 setInterval(()=>{
-novacoinPrice.innerText=(1+Math.random()*0.2).toFixed(2);
+novaPrice.innerText=(1+Math.random()*0.2).toFixed(2);
 btc.innerText=(80000+Math.random()*2000).toFixed(2);
 eth.innerText=(4000+Math.random()*500).toFixed(2);
 },4000);
