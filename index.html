@@ -3,21 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NOVATREX Exchange Clone Binance</title>
+<title>NOVATREX Exchange - Prototype Public</title>
 <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
 <style>
+/* --- Global --- */
 body { margin:0; font-family:'Montserrat',sans-serif; background:#0A1F44; color:#fff; }
-header { background:#0A1F44; display:flex; justify-content:space-between; align-items:center; padding:15px 20px; border-bottom:1px solid #2CA8FF; }
+header { background:#0A1F44; display:flex; justify-content:space-between; align-items:center; padding:10px 20px; border-bottom:1px solid #2CA8FF; }
 header h1 { color:#F5B800; font-size:1.5em; }
-header .user-actions button { background:#F5B800; color:#0A1F44; border:none; padding:8px 15px; margin-left:5px; border-radius:5px; cursor:pointer; font-weight:bold; }
+.ticker { display:flex; gap:15px; overflow-x:auto; white-space:nowrap; padding-left:10px; }
+.ticker span { padding:5px 10px; border-radius:5px; background:#112A55; }
 .flex { display:flex; }
 .sidebar { width:200px; background:#112A55; padding:10px; height:calc(100vh - 60px); overflow-y:auto; }
 .sidebar h3 { text-align:center; margin-top:0; }
 .sidebar ul { list-style:none; padding:0; margin:0; }
 .sidebar li { padding:10px; margin:5px 0; background:#0A1F44; border-radius:5px; cursor:pointer; }
 .sidebar li:hover { background:#2CA8FF; }
-.main { flex:1; padding:10px; }
-.right-panel { width:300px; background:#112A55; padding:15px; border-radius:10px; margin-left:10px; }
+.main { flex:1; padding:10px; display:flex; flex-direction:column; gap:10px; }
+.right-panel { width:300px; background:#112A55; padding:15px; border-radius:10px; margin-left:10px; height:fit-content; }
 .card { background:#112A55; padding:15px; margin-bottom:10px; border-radius:10px; }
 #chart { height:400px; width:100%; }
 table { width:100%; border-collapse:collapse; margin-top:10px; }
@@ -29,20 +31,14 @@ td { background:#0A1F44; }
 input, select { padding:5px; border-radius:5px; border:none; margin:3px 0; width:100%; box-sizing:border-box; }
 .btn { background:#F5B800; color:#0A1F44; border:none; padding:8px 15px; cursor:pointer; border-radius:5px; font-weight:bold; margin-top:5px; width:100%; }
 #orders, #history { max-height:150px; overflow-y:auto; background:#0A1F44; padding:10px; border-radius:5px; margin-top:10px; }
+.bottom-section { display:flex; gap:10px; }
 </style>
 </head>
 <body>
 
 <header>
 <h1>NOVATREX</h1>
-<div class="user-actions" id="user-actions">
-  <button onclick="showLogin()">Connexion</button>
-  <button onclick="showRegister()">Inscription</button>
-</div>
-<div class="user-welcome" id="user-welcome" style="display:none;">
-  <span id="username-display"></span>
-  <button onclick="logout()">Déconnexion</button>
-</div>
+<div class="ticker" id="ticker"></div>
 </header>
 
 <div class="flex">
@@ -60,16 +56,11 @@ input, select { padding:5px; border-radius:5px; border:none; margin:3px 0; width
       <div id="chart"></div>
     </div>
 
-    <!-- Orders + History -->
-    <div class="flex">
+    <div class="bottom-section">
+      <!-- Trading panel -->
       <div class="right-panel">
         <h3>Achat / Vente</h3>
-        <select id="trade-crypto">
-          <option value="Novacoin">NVC</option>
-          <option value="Bitcoin">BTC</option>
-          <option value="Ethereum">ETH</option>
-          <option value="BNB">BNB</option>
-        </select>
+        <select id="trade-crypto"></select>
         <input type="number" id="trade-amount" placeholder="Montant">
         <button class="btn" onclick="buyCrypto()">Acheter</button>
         <button class="btn" onclick="sellCrypto()">Vendre</button>
@@ -84,80 +75,96 @@ input, select { padding:5px; border-radius:5px; border:none; margin:3px 0; width
   </div>
 </div>
 
-<!-- Modals pour login/register -->
-<div id="modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;justify-content:center;align-items:center;">
-  <div style="background:#112A55;padding:20px;border-radius:10px;width:300px;">
-    <h3 id="modal-title">Connexion</h3>
-    <input type="text" id="modal-username" placeholder="Nom d'utilisateur">
-    <input type="password" id="modal-password" placeholder="Mot de passe">
-    <button class="btn" id="modal-btn">Se connecter</button>
-    <button class="btn" onclick="closeModal()" style="background:#FF4D4D;margin-top:5px;">Annuler</button>
-  </div>
-</div>
-
-<script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
 <script>
-/* --- Users simulation --- */
-function showLogin(){
-  document.getElementById('modal-title').innerText='Connexion';
-  document.getElementById('modal-btn').innerText='Se connecter';
-  document.getElementById('modal-btn').onclick=login;
-  document.getElementById('modal').style.display='flex';
-}
-function showRegister(){
-  document.getElementById('modal-title').innerText='Inscription';
-  document.getElementById('modal-btn').innerText='S\'inscrire';
-  document.getElementById('modal-btn').onclick=register;
-  document.getElementById('modal').style.display='flex';
-}
-function closeModal(){document.getElementById('modal').style.display='none';}
-function login(){
-  const username=document.getElementById('modal-username').value;
-  const password=document.getElementById('modal-password').value;
-  if(username && password){localStorage.setItem('novatrex-user',username); updateUserUI(); closeModal();}
-}
-function register(){
-  const username=document.getElementById('modal-username').value;
-  const password=document.getElementById('modal-password').value;
-  if(username && password){localStorage.setItem('novatrex-user',username); updateUserUI(); closeModal();}
-}
-function logout(){localStorage.removeItem('novatrex-user'); updateUserUI();}
-function updateUserUI(){
-  const user=localStorage.getItem('novatrex-user');
-  if(user){document.getElementById('user-actions').style.display='none';document.getElementById('user-welcome').style.display='block';document.getElementById('username-display').innerText=user;}
-  else{document.getElementById('user-actions').style.display='block';document.getElementById('user-welcome').style.display='none';}
-}
-updateUserUI();
-
-/* --- Crypto data --- */
-const cryptos=[
-  {name:'Bitcoin',symbol:'BTC',price:27450,change:2.3,balance:0.05},
-  {name:'Ethereum',symbol:'ETH',price:1840,change:1.1,balance:0.3},
-  {name:'BNB',symbol:'BNB',price:340,change:-0.5,balance:1},
-  {name:'Novacoin',symbol:'NVC',price:0.24,change:3.5,balance:1200},
+/* --- Crypto simulation --- */
+let cryptos = [
+  {name:'Novacoin', symbol:'NVC', price:0.24, change:0.5, balance:1200},
+  {name:'Bitcoin', symbol:'BTC', price:27450, change:-0.3, balance:0.05},
+  {name:'Ethereum', symbol:'ETH', price:1840, change:1.1, balance:0.3},
+  {name:'BNB', symbol:'BNB', price:340, change:0.7, balance:1},
+  {name:'Tether', symbol:'USDT', price:1, change:0, balance:500}
 ];
-const cryptoList=document.getElementById('crypto-list');
-cryptos.forEach(c=>{
-  const li=document.createElement('li');
-  li.innerText=`${c.symbol} - $${c.price.toFixed(2)}`;
-  li.onclick=()=>selectCrypto(c.name);
-  cryptoList.appendChild(li);
-});
 
-/* --- Chart --- */
+/* --- Sidebar crypto list --- */
+const cryptoList=document.getElementById('crypto-list');
+const tradeSelect=document.getElementById('trade-crypto');
+function renderSidebar(){
+  cryptoList.innerHTML=''; tradeSelect.innerHTML='';
+  cryptos.forEach(c=>{
+    const li=document.createElement('li');
+    li.innerText=`${c.symbol} - $${c.price.toFixed(2)} (${c.change>=0?'+':''}${c.change}%)`;
+    li.onclick=()=>selectCrypto(c.name);
+    cryptoList.appendChild(li);
+    const opt=document.createElement('option');
+    opt.value=c.name; opt.innerText=c.name;
+    tradeSelect.appendChild(opt);
+  });
+}
+renderSidebar();
+
+/* --- Ticker dynamique --- */
+const ticker=document.getElementById('ticker');
+function updateTicker(){
+  ticker.innerHTML='';
+  cryptos.forEach(c=>{
+    const span=document.createElement('span');
+    span.innerHTML=`${c.symbol} $${c.price.toFixed(2)} ${c.change>=0?'+':''}${c.change}%`;
+    span.style.color=c.change>=0?'#2CA8FF':'#FF4D4D';
+    ticker.appendChild(span);
+  });
+}
+setInterval(()=>{ 
+  cryptos.forEach(c=>{
+    let variation=(Math.random()*2-1)*0.5;
+    c.price += variation; c.change = variation.toFixed(2);
+  }); 
+  updateTicker();
+  updateChartData();
+},2000);
+
+/* --- Chart candlestick dynamique --- */
 const chartContainer=document.getElementById('chart');
 const chart=LightweightCharts.createChart(chartContainer,{layout:{backgroundColor:'#112A55',textColor:'#fff'},grid:{vertLines:{color:'#1B3A66'},horzLines:{color:'#1B3A66'}},crosshair:{mode:0},rightPriceScale:{borderColor:'#2CA8FF'},timeScale:{borderColor:'#2CA8FF'}});
 const candleSeries=chart.addCandlestickSeries({upColor:'#2CA8FF',downColor:'#FF4D4D',borderVisible:false,wickUpColor:'#2CA8FF',wickDownColor:'#FF4D4D'});
-let candlesticks=[{time:'2026-02-01',open:0.2,high:0.25,low:0.18,close:0.24},{time:'2026-02-02',open:0.24,high:0.26,low:0.22,close:0.23},{time:'2026-02-03',open:0.23,high:0.24,low:0.21,close:0.22},{time:'2026-02-04',open:0.22,high:0.23,low:0.2,close:0.21},{time:'2026-02-05',open:0.21,high:0.23,low:0.21,close:0.22},{time:'2026-02-06',open:0.22,high:0.24,low:0.22,close:0.24}];
-candleSeries.setData(candlesticks);
-
-function selectCrypto(name){document.getElementById('chart-title').innerText=name+'/USD';document.getElementById('trade-crypto').value=name;}
+let candlesticks = [];
+function initChart(){
+  let time = Math.floor(Date.now()/1000) - 60*60;
+  for(let i=0;i<30;i++){
+    candlesticks.push({time:time+i*60, open:0.2+Math.random()*0.05, high:0.25+Math.random()*0.05, low:0.18+Math.random()*0.05, close:0.2+Math.random()*0.05});
+  }
+  candleSeries.setData(candlesticks);
+}
+initChart();
+function updateChartData(){
+  const last=candlesticks[candlesticks.length-1];
+  const newCandle={time:last.time+60, open:last.close, high:last.close+(Math.random()*0.02), low:last.close-(Math.random()*0.02), close:last.close+(Math.random()*0.02-0.01)};
+  candlesticks.push(newCandle);
+  if(candlesticks.length>50) candlesticks.shift();
+  candleSeries.setData(candlesticks);
+}
 
 /* --- Trading simulation --- */
-function updateBalances(){document.getElementById('trade-balance').innerText=cryptos[3].balance;document.getElementById('nvc-balance')?.innerText=cryptos[3].balance;}
-function buyCrypto(){const amt=parseFloat(document.getElementById('trade-amount').value);const crypto=document.getElementById('trade-crypto').value;const c=cryptos.find(x=>x.name===crypto);c.balance+=amt;updateBalances();addOrder('Achat',crypto,amt);}
-function sellCrypto(){const amt=parseFloat(document.getElementById('trade-amount').value);const crypto=document.getElementById('trade-crypto').value;const c=cryptos.find(x=>x.name===crypto);if(amt>c.balance){alert('Solde insuffisant'); return;}c.balance-=amt;updateBalances();addOrder('Vente',crypto,amt);}
-function addOrder(type,crypto,amt){const orders=document.getElementById('orders');orders.innerHTML=`<p>${type} ${amt} ${crypto}</p>`+orders.innerHTML;const history=document.getElementById('history');history.innerHTML=`<p>${type} ${amt} ${crypto}</p>`+history.innerHTML;}
+const ordersDiv=document.getElementById('orders');
+const historyDiv=document.getElementById('history');
+function selectCrypto(name){document.getElementById('chart-title').innerText=name+'/USD';tradeSelect.value=name;}
+function buyCrypto(){
+  const amt=parseFloat(document.getElementById('trade-amount').value); 
+  const crypto=tradeSelect.value;
+  const c=cryptos.find(x=>x.name===crypto);
+  c.balance+=amt;
+  ordersDiv.innerHTML=`<p>Achat ${amt} ${crypto}</p>`+ordersDiv.innerHTML;
+  historyDiv.innerHTML=`<p>Achat ${amt} ${crypto}</p>`+historyDiv.innerHTML;
+}
+function sellCrypto(){
+  const amt=parseFloat(document.getElementById('trade-amount').value); 
+  const crypto=tradeSelect.value;
+  const c=cryptos.find(x=>x.name===crypto);
+  if(amt>c.balance){alert('Solde insuffisant'); return;}
+  c.balance-=amt;
+  ordersDiv.innerHTML=`<p>Vente ${amt} ${crypto}</p>`+ordersDiv.innerHTML;
+  historyDiv.innerHTML=`<p>Vente ${amt} ${crypto}</p>`+historyDiv.innerHTML;
+}
 </script>
+
 </body>
 </html>
