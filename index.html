@@ -8,10 +8,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
+
 body{
 margin:0;
 font-family:Poppins;
-background:#eef2fb;
+background:#f2f3f7;
 }
 
 /* HEADER */
@@ -20,40 +21,42 @@ display:flex;
 align-items:center;
 padding:10px;
 background:white;
-box-shadow:0 2px 5px rgba(0,0,0,0.1);
+box-shadow:0 2px 5px rgba(0,0,0,0.08);
 }
 
 .logo{
 width:40px;
 height:40px;
-background:linear-gradient(45deg,#0099ff,#0044ff);
+background:linear-gradient(145deg,#c62828,#7a7a7a);
 border-radius:10px;
 margin-right:10px;
 }
 
 .search{
 flex:1;
-background:#f0f0f0;
+background:#eee;
 border-radius:20px;
 padding:8px;
+border:none;
 }
 
-/* AUTH BUTTON 3D */
-.auth-btn{
+/* 3D BUTTON STYLE */
+.btn3d{
 margin-left:8px;
 padding:8px 15px;
 border:none;
-border-radius:8px;
-background:linear-gradient(145deg,#00c6ff,#0072ff);
+border-radius:10px;
+background:linear-gradient(145deg,#d32f2f,#616161);
 color:white;
 cursor:pointer;
-box-shadow:0 4px 0 #004a9f;
+box-shadow:0 4px 0 #3a3a3a;
 transition:0.2s;
+font-size:13px;
 }
 
-.auth-btn:active{
-box-shadow:none;
+.btn3d:active{
 transform:translateY(4px);
+box-shadow:none;
 }
 
 /* BALANCE */
@@ -66,12 +69,12 @@ border-radius:15px;
 
 .deposit-btn{
 float:right;
-background:linear-gradient(145deg,#00c6ff,#00ffcc);
 padding:10px 15px;
 border-radius:10px;
+background:linear-gradient(145deg,#d32f2f,#616161);
 color:white;
 cursor:pointer;
-box-shadow:0 4px 0 #00a389;
+box-shadow:0 4px 0 #3a3a3a;
 }
 
 /* ICON GRID */
@@ -98,7 +101,7 @@ padding:15px;
 
 /* REWARD */
 .reward{
-background:linear-gradient(45deg,#0099ff,#00d4ff);
+background:linear-gradient(145deg,#d32f2f,#757575);
 color:white;
 padding:15px;
 margin:15px;
@@ -136,11 +139,20 @@ box-shadow:0 -2px 5px rgba(0,0,0,0.1);
 
 .footer div{
 font-size:12px;
-text-align:center;
 cursor:pointer;
+padding:6px 10px;
+border-radius:8px;
+background:linear-gradient(145deg,#d32f2f,#616161);
+color:white;
+box-shadow:0 3px 0 #3a3a3a;
 }
 
-/* MODAL LOGIN */
+.footer div:active{
+transform:translateY(3px);
+box-shadow:none;
+}
+
+/* MODAL */
 .modal{
 position:fixed;
 top:0;
@@ -151,21 +163,36 @@ background:rgba(0,0,0,0.6);
 display:none;
 justify-content:center;
 align-items:center;
+padding:10px;
 }
 
 .modal-box{
 background:white;
 padding:20px;
 border-radius:12px;
-width:280px;
+width:100%;
+max-width:320px;
 }
 
 .modal-box input{
 width:100%;
-padding:10px;
+padding:12px;
 margin:6px 0;
 border-radius:8px;
 border:1px solid #ddd;
+}
+
+/* MOBILE RESPONSIVE */
+@media(max-width:480px){
+
+.balance h1{
+font-size:22px;
+}
+
+.footer div{
+font-size:11px;
+}
+
 }
 
 </style>
@@ -178,14 +205,15 @@ border:1px solid #ddd;
 <div class="logo"></div>
 <input class="search" placeholder="Search">
 
-<button class="auth-btn" onclick="openLogin()">Login</button>
-<button class="auth-btn" onclick="openRegister()">Register</button>
+<button class="btn3d" onclick="openLogin()">Login</button>
+<button class="btn3d" onclick="openRegister()">Register</button>
 </div>
 
 <!-- BALANCE -->
 <div class="balance">
 <h4>Balance (USDT)</h4>
 <h1 id="balance">0.00</h1>
+
 <div class="deposit-btn" onclick="secureAction(deposit)">Deposit</div>
 
 <div class="icon-grid">
@@ -204,24 +232,20 @@ border:1px solid #ddd;
 
 </div>
 
-<!-- BANNER -->
 <div class="banner">
 <h3>One Stop Service For Crypto NOVATREX</h3>
 <p>Trading • Marketing • History</p>
 </div>
 
-<!-- REWARD -->
 <div class="reward">
 <div>Reward Center</div>
 <div>More Advantages ↓</div>
 </div>
 
-<!-- GRAPH -->
 <div class="banner">
 <div id="tradingview_chart"></div>
 </div>
 
-<!-- MARKET -->
 <div class="market">
 <h3>Best Movements</h3>
 
@@ -244,30 +268,30 @@ border:1px solid #ddd;
 
 <!-- FOOTER -->
 <div class="footer">
-<div>🏠 Home</div>
-<div onclick="secureAction(()=>alert('Market'))">📊 Market</div>
-<div onclick="secureAction(()=>alert('Trade Panel'))">💹 Trade</div>
-<div>🚚 Delivery</div>
-<div onclick="secureAction(()=>alert('Wallet'))">👛 Wallet</div>
+<div>🏠</div>
+<div onclick="secureAction(()=>alert('Market'))">📊</div>
+<div onclick="secureAction(()=>alert('Trade'))">💹</div>
+<div>🚚</div>
+<div onclick="secureAction(()=>alert('Wallet'))">👛</div>
 </div>
 
-<!-- LOGIN MODAL -->
+<!-- LOGIN -->
 <div class="modal" id="loginBox">
 <div class="modal-box">
 <h3>Login</h3>
 <input id="logEmail" placeholder="Email">
 <input id="logPass" type="password" placeholder="Password">
-<button class="auth-btn" onclick="login()">Login</button>
+<button class="btn3d" onclick="login()">Login</button>
 </div>
 </div>
 
-<!-- REGISTER MODAL -->
+<!-- REGISTER -->
 <div class="modal" id="registerBox">
 <div class="modal-box">
-<h3>Register</h3>
+<h3>Create Account</h3>
 <input id="regEmail" placeholder="Email">
 <input id="regPass" type="password" placeholder="Password">
-<button class="auth-btn" onclick="register()">Register</button>
+<button class="btn3d" onclick="register()">Register</button>
 </div>
 </div>
 
@@ -275,7 +299,6 @@ border:1px solid #ddd;
 
 <script>
 
-/* TRADING GRAPH */
 new TradingView.widget({
 width:"100%",
 height:300,
@@ -284,40 +307,55 @@ interval:"5",
 container_id:"tradingview_chart"
 });
 
-/* USER STORAGE */
+/* USERS */
 let users = JSON.parse(localStorage.getItem("users")||"{}");
 let currentUser=null;
 
-function openLogin(){
-loginBox.style.display="flex";
-}
+/* MODALS */
+function openLogin(){ loginBox.style.display="flex"; }
+function openRegister(){ registerBox.style.display="flex"; }
 
-function openRegister(){
-registerBox.style.display="flex";
-}
-
+/* REGISTER VALIDATION */
 function register(){
+
+if(!regEmail.value || !regPass.value){
+alert("Please fill all fields");
+return;
+}
+
+if(users[regEmail.value]){
+alert("User already exists");
+return;
+}
+
 users[regEmail.value]={password:regPass.value,balance:0};
 localStorage.setItem("users",JSON.stringify(users));
-alert("Account Created");
+alert("Account Created Successfully");
 registerBox.style.display="none";
 }
 
+/* LOGIN */
 function login(){
+
+if(!logEmail.value || !logPass.value){
+alert("Enter login details");
+return;
+}
+
 if(users[logEmail.value] && users[logEmail.value].password===logPass.value){
 currentUser=logEmail.value;
 updateBalance();
 loginBox.style.display="none";
 alert("Welcome Trader");
 }else{
-alert("Wrong Login");
+alert("Invalid Login");
 }
 }
 
-/* SECURITY CHECK */
+/* SECURITY */
 function secureAction(action){
 if(!currentUser){
-alert("Login First To Trade");
+alert("Login Required");
 return;
 }
 action();
@@ -328,7 +366,7 @@ function updateBalance(){
 balance.innerText=users[currentUser].balance.toFixed(2);
 }
 
-/* TRADING ACTIONS */
+/* TRADING */
 function deposit(){
 users[currentUser].balance+=50;
 updateBalance();
@@ -341,15 +379,11 @@ updateBalance();
 
 function recharge(){ deposit(); }
 
-function invite(){
-alert("Invite link generated");
-}
+function invite(){ alert("Invite link generated"); }
 
-function cert(){
-alert("Certification Completed");
-}
+function cert(){ alert("Certification Completed"); }
 
-/* PRICE SIMULATION */
+/* PRICES */
 setInterval(()=>{
 novacoinPrice.innerText=(1+Math.random()*0.2).toFixed(2);
 btc.innerText=(80000+Math.random()*2000).toFixed(2);
