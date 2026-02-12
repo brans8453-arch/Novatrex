@@ -1,201 +1,291 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NOVATREX Exchange Pro</title>
-<script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+<title>NOVATREX Exchange</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
-body{margin:0;font-family:'Montserrat',sans-serif;background:#0A1F44;color:#fff;}
-header{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;background:#0A1F44;border-bottom:1px solid #2CA8FF;}
-header h1{color:#F5B800;}
-.ticker{display:flex;gap:15px;overflow-x:auto;white-space:nowrap;}
-.ticker span{padding:5px 10px;border-radius:5px;background:#112A55;}
-.flex{display:flex;}
-.sidebar{width:220px;background:#112A55;padding:10px;height:calc(100vh - 60px);overflow-y:auto;}
-.sidebar h3{text-align:center;margin-top:0;}
-.sidebar ul{list-style:none;padding:0;margin:0;}
-.sidebar li{padding:10px;margin:5px 0;background:#0A1F44;border-radius:5px;cursor:pointer;}
-.sidebar li:hover{background:#2CA8FF;}
-.main{flex:1;padding:10px;display:flex;flex-direction:column;gap:10px;}
-.right-panel{width:300px;background:#112A55;padding:15px;border-radius:10px;margin-left:10px;height:fit-content;}
-.card{background:#112A55;padding:15px;margin-bottom:10px;border-radius:10px;}
-#chart{height:400px;width:100%;}
-table{width:100%;border-collapse:collapse;margin-top:10px;}
-th,td{padding:5px;text-align:center;}
-th{background:#112A55;}
-td{background:#0A1F44;}
-.green{color:#2CA8FF;}
-.red{color:#FF4D4D;}
-input,select{padding:5px;border-radius:5px;border:none;margin:3px 0;width:100%;box-sizing:border-box;}
-.btn{background:#F5B800;color:#0A1F44;border:none;padding:8px 15px;cursor:pointer;border-radius:5px;font-weight:bold;margin-top:5px;width:100%;}
-#orders,#history,#referral-log{max-height:150px;overflow-y:auto;background:#0A1F44;padding:10px;border-radius:5px;margin-top:10px;}
-.bottom-section{display:flex;gap:10px;}
+body{
+margin:0;
+font-family:Poppins;
+background:#f4f6fb;
+}
+
+/* HEADER */
+.header{
+display:flex;
+align-items:center;
+padding:10px;
+background:white;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.logo{
+width:40px;
+height:40px;
+background:linear-gradient(45deg,#00c6ff,#0072ff);
+border-radius:10px;
+margin-right:10px;
+}
+
+.search{
+flex:1;
+background:#f0f0f0;
+border-radius:20px;
+padding:8px;
+}
+
+/* BALANCE */
+.balance{
+background:white;
+margin:15px;
+padding:20px;
+border-radius:15px;
+}
+
+.deposit-btn{
+float:right;
+background:linear-gradient(45deg,#00c6ff,#00ffcc);
+padding:10px 15px;
+border-radius:10px;
+color:white;
+cursor:pointer;
+}
+
+/* ICON GRID */
+.icon-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+text-align:center;
+margin-top:15px;
+}
+
+.icon-grid div{
+font-size:12px;
+padding:10px;
+cursor:pointer;
+}
+
+/* BANNERS */
+.banner{
+background:white;
+margin:15px;
+border-radius:15px;
+padding:15px;
+}
+
+/* REWARD */
+.reward{
+background:linear-gradient(45deg,#00c6ff,#00ffcc);
+color:white;
+padding:15px;
+margin:15px;
+border-radius:15px;
+display:flex;
+justify-content:space-between;
+}
+
+/* MARKET */
+.market{
+background:white;
+margin:15px;
+padding:15px;
+border-radius:15px;
+}
+
+.wallet{
+display:flex;
+justify-content:space-between;
+padding:10px 0;
+border-bottom:1px solid #eee;
+}
+
+/* FOOTER */
+.footer{
+position:fixed;
+bottom:0;
+width:100%;
+background:white;
+display:flex;
+justify-content:space-around;
+padding:10px 0;
+box-shadow:0 -2px 5px rgba(0,0,0,0.1);
+}
+
+.footer div{
+font-size:12px;
+text-align:center;
+cursor:pointer;
+}
+
 </style>
 </head>
+
 <body>
 
-<header>
-<h1>NOVATREX</h1>
-<div class="ticker" id="ticker"></div>
-</header>
-
-<div class="flex">
-  <div class="sidebar">
-    <h3>Cryptos</h3>
-    <ul id="crypto-list"></ul>
-    <h3>Wallet</h3>
-    <div id="wallet-info"></div>
-    <h3>Parrainage</h3>
-    <div id="referral-info">Lien: <code>https://novatrex.com/ref/USER123</code></div>
-    <div id="referral-log"></div>
-  </div>
-
-  <div class="main">
-    <div class="card">
-      <h3 id="chart-title">NVC/USD</h3>
-      <div id="chart"></div>
-    </div>
-
-    <div class="bottom-section">
-      <div class="right-panel">
-        <h3>Achat / Vente</h3>
-        <select id="trade-crypto"></select>
-        <input type="number" id="trade-amount" placeholder="Montant">
-        <button class="btn" onclick="buyCrypto()">Acheter</button>
-        <button class="btn" onclick="sellCrypto()">Vendre</button>
-
-        <h3>Ordres Ouverts</h3>
-        <div id="orders"></div>
-
-        <h3>Historique</h3>
-        <div id="history"></div>
-
-        <h3>Trading Automatique</h3>
-        <button class="btn" id="auto-btn">Activer Bot</button>
-        Seuil variation (%): <input type="number" id="auto-threshold" value="1">
-        Volume: <input type="number" id="auto-volume" value="50">
-      </div>
-    </div>
-  </div>
+<!-- HEADER -->
+<div class="header">
+<div class="logo"></div>
+<input class="search" placeholder="Search">
 </div>
 
+<!-- BALANCE -->
+<div class="balance">
+<h4>Balance (USDT)</h4>
+<h1 id="balance">0.00</h1>
+<div class="deposit-btn" onclick="deposit()">Deposit</div>
+
+<div class="icon-grid">
+<div onclick="recharge()">Recharge</div>
+<div onclick="withdraw()">Withdraw</div>
+<div onclick="invite()">Invitation</div>
+<div onclick="cert()">Certification</div>
+</div>
+
+<div class="icon-grid">
+<div>Offers</div>
+<div>Ecosystem</div>
+<div>DeFi</div>
+<div>GameFi</div>
+</div>
+
+</div>
+
+<!-- BANNER -->
+<div class="banner">
+<h3>One Stop Service For Crypto NOVATREX</h3>
+<p>Trading • Marketing • History</p>
+</div>
+
+<!-- REWARD -->
+<div class="reward">
+<div>Reward Center</div>
+<div>More Advantages ↓</div>
+</div>
+
+<!-- GRAPH -->
+<div class="banner">
+<div class="tradingview-widget-container">
+<div id="tradingview_chart"></div>
+</div>
+</div>
+
+<!-- MARKET -->
+<div class="market">
+<h3>Best Movements</h3>
+
+<div class="wallet">
+<div>Novacoin</div>
+<div id="novacoinPrice">1.00</div>
+</div>
+
+<div class="wallet">
+<div>BTC/USDT</div>
+<div id="btc">Loading...</div>
+</div>
+
+<div class="wallet">
+<div>ETH/USDT</div>
+<div id="eth">Loading...</div>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+<div onclick="alert('Home')">🏠 Home</div>
+<div onclick="alert('Market')">📊 Market</div>
+<div onclick="alert('Trade')">💹 Trade</div>
+<div onclick="alert('Delivery')">🚚 Delivery</div>
+<div onclick="alert('Wallet')">👛 Wallet</div>
+</div>
+
+<script src="https://s3.tradingview.com/tv.js"></script>
+
 <script>
-/* --- Crypto --- */
-let cryptos = [
-  {name:'Novacoin', symbol:'NVC', price:0.24, change:0.5, balance:1200},
-  {name:'Bitcoin', symbol:'BTC', price:27450, change:-0.3, balance:0.05},
-  {name:'Ethereum', symbol:'ETH', price:1840, change:1.1, balance:0.3},
-  {name:'BNB', symbol:'BNB', price:340, change:0.7, balance:1},
-  {name:'Tether', symbol:'USDT', price:1, change:0, balance:500}
+
+/* GRAPH */
+new TradingView.widget({
+"width":"100%",
+"height":300,
+"symbol":"BINANCE:BTCUSDT",
+"interval":"5",
+"container_id":"tradingview_chart"
+});
+
+/* USER DATA */
+let balance = 0;
+let novacoin = 1;
+
+/* SIGNAL HOURS */
+setInterval(()=>{
+let hour = new Date().getHours();
+
+if([8,11,13,16].includes(hour)){
+alert("Trading Signal Available!");
+}
+},60000);
+
+/* DEPOSIT */
+function deposit(){
+balance+=50;
+updateBalance();
+}
+
+/* WITHDRAW */
+function withdraw(){
+if(balance>0){
+balance-=10;
+updateBalance();
+}
+}
+
+/* INVITE */
+function invite(){
+let link="https://novatrex.com/ref/"+Math.floor(Math.random()*99999);
+alert("Your invite link: "+link);
+}
+
+/* CERTIFICATION */
+function cert(){
+alert("Verification Completed");
+}
+
+function recharge(){
+deposit();
+}
+
+function updateBalance(){
+document.getElementById("balance").innerText = balance.toFixed(2);
+}
+
+/* MARKETING MESSAGE */
+setInterval(()=>{
+let msgs=[
+"Novacoin rising!",
+"New Marketing Campaign Active",
+"NOVATREX Blockchain Update",
+"New Traders Joined"
 ];
 
-/* --- Sidebar et Wallet --- */
-const cryptoList=document.getElementById('crypto-list');
-const tradeSelect=document.getElementById('trade-crypto');
-const walletInfo=document.getElementById('wallet-info');
-const referralLog=document.getElementById('referral-log');
+alert(msgs[Math.floor(Math.random()*msgs.length)]);
+},240000);
 
-function renderSidebar(){
-  cryptoList.innerHTML=''; tradeSelect.innerHTML=''; walletInfo.innerHTML='';
-  cryptos.forEach(c=>{
-    const li=document.createElement('li');
-    li.innerText=`${c.symbol} - $${c.price.toFixed(2)} (${c.change>=0?'+':''}${c.change}%)`;
-    li.onclick=()=>selectCrypto(c.name);
-    cryptoList.appendChild(li);
-    const opt=document.createElement('option'); opt.value=c.name; opt.innerText=c.name;
-    tradeSelect.appendChild(opt);
-    walletInfo.innerHTML += `<p>${c.symbol}: ${c.balance.toFixed(2)}</p>`;
-  });
-}
-renderSidebar();
+/* PRICE SIMULATION */
+setInterval(()=>{
+novacoin += Math.random()*0.05;
+document.getElementById("novacoinPrice").innerText = novacoin.toFixed(2);
+},5000);
 
-/* --- Ticker dynamique --- */
-const ticker=document.getElementById('ticker');
-function updateTicker(){
-  ticker.innerHTML='';
-  cryptos.forEach(c=>{
-    let span=document.createElement('span');
-    span.innerHTML=`${c.symbol} $${c.price.toFixed(2)} ${c.change>=0?'+':''}${c.change}%`;
-    span.style.color=c.change>=0?'#2CA8FF':'#FF4D4D';
-    ticker.appendChild(span);
-  });
-}
-setInterval(()=>{ 
-  cryptos.forEach(c=>{
-    let variation=(Math.random()*2-1)*0.5;
-    c.price += variation; c.change = variation.toFixed(2);
-  }); 
-  updateTicker(); renderSidebar(); updateChartData(); autoTradingStep();
-},2000);
+/* BTC ETH DEMO */
+setInterval(()=>{
+document.getElementById("btc").innerText = (80000+Math.random()*2000).toFixed(2);
+document.getElementById("eth").innerText = (4000+Math.random()*500).toFixed(2);
+},4000);
 
-/* --- Chart candlestick --- */
-const chartContainer=document.getElementById('chart');
-const chart=LightweightCharts.createChart(chartContainer,{layout:{backgroundColor:'#112A55',textColor:'#fff'},grid:{vertLines:{color:'#1B3A66'},horzLines:{color:'#1B3A66'}},crosshair:{mode:0},rightPriceScale:{borderColor:'#2CA8FF'},timeScale:{borderColor:'#2CA8FF'}});
-const candleSeries=chart.addCandlestickSeries({upColor:'#2CA8FF',downColor:'#FF4D4D',borderVisible:false,wickUpColor:'#2CA8FF',wickDownColor:'#FF4D4D'});
-let candlesticks=[];
-function initChart(){
-  let time=Math.floor(Date.now()/1000)-60*60;
-  for(let i=0;i<30;i++){candlesticks.push({time:time+i*60, open:0.2+Math.random()*0.05, high:0.25+Math.random()*0.05, low:0.18+Math.random()*0.05, close:0.2+Math.random()*0.05});}
-  candleSeries.setData(candlesticks);
-}
-initChart();
-function updateChartData(){
-  const last=candlesticks[candlesticks.length-1];
-  const newCandle={time:last.time+60, open:last.close, high:last.close+(Math.random()*0.02), low:last.close-(Math.random()*0.02), close:last.close+(Math.random()*0.02-0.01)};
-  candlesticks.push(newCandle); if(candlesticks.length>50) candlesticks.shift();
-  candleSeries.setData(candlesticks);
-}
-function selectCrypto(name){document.getElementById('chart-title').innerText=name+'/USD'; tradeSelect.value=name;}
-
-/* --- Trading simulation --- */
-const ordersDiv=document.getElementById('orders');
-const historyDiv=document.getElementById('history');
-function buyCrypto(){
-  const amt=parseFloat(document.getElementById('trade-amount').value); 
-  const crypto=tradeSelect.value;
-  const c=cryptos.find(x=>x.name===crypto);
-  c.balance+=amt;
-  ordersDiv.innerHTML=`<p>Achat ${amt} ${crypto}</p>`+ordersDiv.innerHTML;
-  historyDiv.innerHTML=`<p>Achat ${amt} ${crypto}</p>`+historyDiv.innerHTML;
-  renderSidebar(); updateReferral(amt*0.01);
-}
-function sellCrypto(){
-  const amt=parseFloat(document.getElementById('trade-amount').value); 
-  const crypto=tradeSelect.value;
-  const c=cryptos.find(x=>x.name===crypto);
-  if(amt>c.balance){alert('Solde insuffisant'); return;}
-  c.balance-=amt;
-  ordersDiv.innerHTML=`<p>Vente ${amt} ${crypto}</p>`+ordersDiv.innerHTML;
-  historyDiv.innerHTML=`<p>Vente ${amt} ${crypto}</p>`+historyDiv.innerHTML;
-  renderSidebar(); updateReferral(amt*0.01);
-}
-
-/* --- Parrainage --- */
-let referralBonus=0;
-function updateReferral(bonus){
-  referralBonus += bonus;
-  referralLog.innerHTML=`<p>Bonus Parrain accumulé: $${referralBonus.toFixed(2)}</p>`;
-}
-
-/* --- Trading automatique --- */
-let autoActive=false;
-const autoBtn=document.getElementById('auto-btn');
-autoBtn.addEventListener('click',()=>{autoActive=!autoActive;autoBtn.innerText=autoActive?'Désactiver Bot':'Activer Bot';});
-function autoTradingStep(){
-  if(!autoActive) return;
-  const crypto=tradeSelect.value;
-  const threshold=parseFloat(document.getElementById('auto-threshold').value);
-  const volume=parseFloat(document.getElementById('auto-volume').value);
-  const c=cryptos.find(x=>x.name===crypto);
-  const change=(Math.random()*2-1)*2;
-  if(Math.abs(change)>=threshold){
-    c.balance += change>0?volume:-volume;
-    ordersDiv.innerHTML=`<p>Bot ${change>0?'Achat':'Vente'} ${volume} ${crypto}</p>`+ordersDiv.innerHTML;
-    historyDiv.innerHTML=`<p>Bot ${change>0?'Achat':'Vente'} ${volume} ${crypto}</p>`+historyDiv.innerHTML;
-    renderSidebar(); updateReferral(volume*0.005);
-  }
-}
 </script>
 
 </body>
