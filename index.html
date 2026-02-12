@@ -3,41 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NOVATREX Exchange Prototype</title>
+<title>NOVATREX Exchange Avancé</title>
 <style>
-  body { margin:0; font-family: 'Montserrat', sans-serif; background:#0A1F44; color:#fff; }
-  header { background:#0A1F44; padding:20px; text-align:center; font-size:1.8em; font-weight:bold; color:#F5B800; }
-  nav { display:flex; justify-content:center; background:#0A1F44; border-bottom:1px solid #2CA8FF; }
-  nav button { background:none; border:none; color:#fff; padding:15px 25px; cursor:pointer; font-size:1em; }
-  nav button.active { border-bottom:3px solid #F5B800; font-weight:bold; }
-  section { padding:20px; display:none; }
-  section.active { display:block; }
-  .card { background:#112A55; padding:20px; margin:10px; border-radius:10px; display:inline-block; vertical-align:top; }
-  .flex { display:flex; flex-wrap:wrap; justify-content:space-around; }
-  table { width:100%; border-collapse:collapse; }
-  th,td { padding:10px; text-align:center; }
-  th { background:#112A55; }
-  td { background:#0A1F44; }
-  .green { color:#2CA8FF; }
-  .red { color:#FF4D4D; }
-  .btn { background:#F5B800; color:#0A1F44; border:none; padding:10px 20px; cursor:pointer; border-radius:5px; font-weight:bold; }
-  input { padding:5px; border-radius:5px; border:none; margin-right:5px; }
+body { margin:0; font-family:'Montserrat',sans-serif; background:#0A1F44; color:#fff; }
+header { background:#0A1F44; padding:20px; text-align:center; font-size:1.8em; font-weight:bold; color:#F5B800; }
+nav { display:flex; justify-content:center; background:#0A1F44; border-bottom:1px solid #2CA8FF; }
+nav button { background:none; border:none; color:#fff; padding:15px 25px; cursor:pointer; font-size:1em; }
+nav button.active { border-bottom:3px solid #F5B800; font-weight:bold; }
+section { padding:20px; display:none; }
+section.active { display:block; }
+.card { background:#112A55; padding:20px; margin:10px; border-radius:10px; display:inline-block; vertical-align:top; }
+.flex { display:flex; flex-wrap:wrap; justify-content:space-around; }
+table { width:100%; border-collapse:collapse; }
+th,td { padding:10px; text-align:center; }
+th { background:#112A55; }
+td { background:#0A1F44; }
+.green { color:#2CA8FF; }
+.red { color:#FF4D4D; }
+.btn { background:#F5B800; color:#0A1F44; border:none; padding:10px 20px; cursor:pointer; border-radius:5px; font-weight:bold; margin:2px; }
+input { padding:5px; border-radius:5px; border:none; margin-right:5px; width:80px; }
 </style>
 </head>
 <body>
 
-<header>NOVATREX Exchange</header>
+<header>NOVATREX Exchange Avancé</header>
 
 <nav>
   <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
   <button class="tab-btn" data-tab="trading">Trading</button>
   <button class="tab-btn" data-tab="wallet">Wallet</button>
   <button class="tab-btn" data-tab="referral">Parrainage</button>
+  <button class="tab-btn" data-tab="auto">Trading Auto</button>
 </nav>
 
 <!-- Dashboard -->
 <section id="dashboard" class="active">
-  <h2>Solde et Crypto</h2>
+  <h2>Portfolio & Graphiques</h2>
   <div class="flex">
     <div class="card">
       <h3>Novacoin (NVC)</h3>
@@ -54,34 +55,44 @@
       <p>Solde: 0.3 ETH</p>
       <p>Valeur USD: $552</p>
     </div>
+    <div class="card">
+      <h3>BNB</h3>
+      <p>Solde: 1 BNB</p>
+      <p>Valeur USD: $340</p>
+    </div>
   </div>
-  <h3>Graphique fictif NVC/USD</h3>
-  <canvas id="dashboardChart" width="600" height="250" style="background:#112A55; border-radius:10px;"></canvas>
+  <h3>Graphique NVC/USD</h3>
+  <canvas id="dashboardChart" width="800" height="300" style="background:#112A55; border-radius:10px;"></canvas>
 </section>
 
 <!-- Trading -->
 <section id="trading">
-  <h2>Trading</h2>
+  <h2>Trading Avancé</h2>
   <div class="flex">
     <div class="card" style="width:48%;">
       <h3>Prix des Cryptos</h3>
       <table>
-        <thead>
-          <tr><th>Crypto</th><th>Prix USD</th><th>Variation 24h</th></tr>
-        </thead>
-        <tbody id="crypto-table">
-          <!-- JS remplira -->
-        </tbody>
+        <thead><tr><th>Crypto</th><th>Prix USD</th><th>Variation 24h</th></tr></thead>
+        <tbody id="crypto-table"></tbody>
       </table>
     </div>
     <div class="card" style="width:48%;">
-      <h3>Achat / Vente NVC</h3>
+      <h3>Achat / Vente</h3>
       <p>
-        Montant NVC: <input type="number" id="trade-amount" value="100">
-        <button class="btn" onclick="buyNVC()">Acheter</button>
-        <button class="btn" onclick="sellNVC()">Vendre</button>
+        Crypto: 
+        <select id="trade-crypto">
+          <option value="Novacoin">NVC</option>
+          <option value="Bitcoin">BTC</option>
+          <option value="Ethereum">ETH</option>
+          <option value="BNB">BNB</option>
+        </select>
       </p>
-      <p>Solde NVC: <span id="trade-balance">1200</span></p>
+      <p>
+        Montant: <input type="number" id="trade-amount" value="100">
+        <button class="btn" onclick="buyCrypto()">Acheter</button>
+        <button class="btn" onclick="sellCrypto()">Vendre</button>
+      </p>
+      <p>Solde simulé NVC: <span id="trade-balance">1200</span></p>
     </div>
   </div>
 </section>
@@ -97,105 +108,161 @@
     </div>
     <div class="card">
       <h3>Retrait NVC</h3>
-      <p>Montant: <input type="number" id="withdraw-amount" value="100">
-      <button class="btn" onclick="withdrawNVC()">Retirer</button></p>
+      <p>
+        Montant: <input type="number" id="withdraw-amount" value="100">
+        <button class="btn" onclick="withdrawNVC()">Retirer</button>
+      </p>
     </div>
   </div>
 </section>
 
 <!-- Parrainage -->
 <section id="referral">
-  <h2>Parrainage</h2>
-  <p>Votre lien unique: <code>https://novatrex.com/ref/USER123</code></p>
+  <h2>Parrainage Multi-niveau</h2>
+  <p>Lien unique: <code>https://novatrex.com/ref/USER123</code></p>
   <p>Équipe: 5 filleuls</p>
   <p>Bonus accumulé: $50</p>
+  <h3>Diagramme Équipe</h3>
+  <div style="display:flex; gap:10px; flex-wrap:wrap;">
+    <div class="card">Parrain (Vous)</div>
+    <div class="card">Filleul 1</div>
+    <div class="card">Filleul 2</div>
+    <div class="card">Filleul 3</div>
+    <div class="card">Filleul 4</div>
+    <div class="card">Filleul 5</div>
+  </div>
+</section>
+
+<!-- Trading Auto -->
+<section id="auto">
+  <h2>Trading Automatique (Simulé)</h2>
+  <p>Activation: <button class="btn" id="auto-btn">Activer Bot</button></p>
+  <p>Paramètres:</p>
+  <p>
+    Crypto: 
+    <select id="auto-crypto">
+      <option value="Novacoin">NVC</option>
+      <option value="Bitcoin">BTC</option>
+      <option value="Ethereum">ETH</option>
+      <option value="BNB">BNB</option>
+    </select>
+    Seuil variation (%): <input type="number" id="auto-threshold" value="2">
+    Volume: <input type="number" id="auto-volume" value="100">
+  </p>
+  <h3>Historique Ordres</h3>
+  <ul id="auto-log"></ul>
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  // Navigation tabs
-  const tabs = document.querySelectorAll('.tab-btn');
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-      document.querySelector('#' + tab.dataset.tab).classList.add('active');
-      tabs.forEach(b => b.classList.remove('active'));
-      tab.classList.add('active');
-    });
+/* --- Navigation tabs --- */
+const tabs = document.querySelectorAll('.tab-btn');
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.querySelector('#' + tab.dataset.tab).classList.add('active');
+    tabs.forEach(b => b.classList.remove('active'));
+    tab.classList.add('active');
   });
+});
 
-  // Fake crypto data
-  const cryptos = [
-    {name:'Bitcoin', symbol:'BTC', price:27450, change:2.3},
-    {name:'Ethereum', symbol:'ETH', price:1840, change:1.1},
-    {name:'BNB', symbol:'BNB', price:340, change:-0.5},
-    {name:'Novacoin', symbol:'NVC', price:0.24, change:3.5},
-    {name:'Tether', symbol:'USDT', price:1, change:0.0},
-  ];
+/* --- Crypto data --- */
+const cryptos = [
+  {name:'Bitcoin', symbol:'BTC', price:27450, change:2.3, balance:0.05},
+  {name:'Ethereum', symbol:'ETH', price:1840, change:1.1, balance:0.3},
+  {name:'BNB', symbol:'BNB', price:340, change:-0.5, balance:1},
+  {name:'Novacoin', symbol:'NVC', price:0.24, change:3.5, balance:1200},
+  {name:'Tether', symbol:'USDT', price:1, change:0, balance:500},
+];
 
-  const table = document.getElementById('crypto-table');
-  function renderTable() {
-    table.innerHTML = '';
-    cryptos.forEach(c => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td>${c.symbol}</td><td>$${c.price.toFixed(2)}</td><td class="${c.change>=0?'green':'red'}">${c.change>=0?'+':''}${c.change}%</td>`;
-      table.appendChild(tr);
-    });
-  }
-  renderTable();
-
-  // Dashboard chart
-  const ctx = document.getElementById('dashboardChart').getContext('2d');
-  const chart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul'],
-      datasets: [{
-        label: 'NVC/USD',
-        data: [0.2,0.22,0.18,0.21,0.23,0.24,0.24],
-        borderColor:'#F5B800',
-        backgroundColor:'rgba(245,184,0,0.2)',
-        tension:0.4,
-        fill:true,
-      }]
-    },
-    options: { responsive:true, plugins:{ legend:{labels:{color:'#fff'}}}, scales:{ x:{ ticks:{color:'#fff'}}, y:{ ticks:{color:'#fff'}} } }
+const table = document.getElementById('crypto-table');
+function renderTable() {
+  table.innerHTML='';
+  cryptos.forEach(c=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${c.symbol}</td><td>$${c.price.toFixed(2)}</td><td class="${c.change>=0?'green':'red'}">${c.change>=0?'+':''}${c.change}%</td>`;
+    table.appendChild(tr);
   });
+}
+renderTable();
 
-  // Trading simulation
-  let balance = 1200;
-  const balanceDisplay = document.getElementById('trade-balance');
-  const nvcUsd = document.getElementById('nvc-usd');
-  const nvcBalance = document.getElementById('nvc-balance');
+/* --- Dashboard Chart --- */
+const ctx=document.getElementById('dashboardChart').getContext('2d');
+const chart=new Chart(ctx,{
+  type:'line',
+  data:{
+    labels:['Jan','Feb','Mar','Apr','May','Jun','Jul'],
+    datasets:[{
+      label:'NVC/USD',
+      data:[0.2,0.22,0.18,0.21,0.23,0.24,0.24],
+      borderColor:'#F5B800',
+      backgroundColor:'rgba(245,184,0,0.2)',
+      tension:0.4, fill:true,
+    }]
+  },
+  options:{ responsive:true, plugins:{ legend:{labels:{color:'#fff'}}}, scales:{ x:{ ticks:{color:'#fff'}}, y:{ ticks:{color:'#fff'}} } }
+});
 
-  function buyNVC() {
-    const amt = parseFloat(document.getElementById('trade-amount').value);
-    balance += amt;
-    balanceDisplay.innerText = balance;
-    nvcBalance.innerText = balance;
-    nvcUsd.innerText = (balance*cryptos[3].price).toFixed(2);
-    alert('Achat simulé: '+amt+' NVC');
+/* --- Trading simulation --- */
+function updateBalances(){
+  document.getElementById('trade-balance').innerText=cryptos[3].balance;
+  document.getElementById('nvc-balance').innerText=cryptos[3].balance;
+  document.getElementById('nvc-usd').innerText=(cryptos[3].balance*cryptos[3].price).toFixed(2);
+}
+function buyCrypto(){
+  const amt=parseFloat(document.getElementById('trade-amount').value);
+  const crypto=document.getElementById('trade-crypto').value;
+  const c=cryptos.find(x=>x.name===crypto);
+  c.balance+=amt;
+  updateBalances();
+  alert('Achat simulé: '+amt+' '+crypto);
+}
+function sellCrypto(){
+  const amt=parseFloat(document.getElementById('trade-amount').value);
+  const crypto=document.getElementById('trade-crypto').value;
+  const c=cryptos.find(x=>x.name===crypto);
+  if(amt>c.balance){ alert('Solde insuffisant'); return; }
+  c.balance-=amt;
+  updateBalances();
+  alert('Vente simulée: '+amt+' '+crypto);
+}
+
+/* --- Wallet simulation --- */
+function withdrawNVC(){
+  const amt=parseFloat(document.getElementById('withdraw-amount').value);
+  const c=cryptos.find(x=>x.name==='Novacoin');
+  if(amt>c.balance){ alert('Solde insuffisant'); return; }
+  c.balance-=amt;
+  updateBalances();
+  alert('Retrait simulé: '+amt+' NVC');
+}
+
+/* --- Trading automatique simulé --- */
+let autoActive=false;
+const autoBtn=document.getElementById('auto-btn');
+const autoLog=document.getElementById('auto-log');
+
+autoBtn.addEventListener('click',()=>{
+  autoActive=!autoActive;
+  autoBtn.innerText=autoActive?'Désactiver Bot':'Activer Bot';
+  if(autoActive) runAuto();
+});
+
+function runAuto(){
+  if(!autoActive) return;
+  const crypto=document.getElementById('auto-crypto').value;
+  const threshold=parseFloat(document.getElementById('auto-threshold').value);
+  const volume=parseFloat(document.getElementById('auto-volume').value);
+  const c=cryptos.find(x=>x.name===crypto);
+  // simulation: variation aléatoire
+  const change=(Math.random()*2-1)*2; 
+  if(Math.abs(change)>=threshold){
+    c.balance+=change>0?volume:-volume;
+    autoLog.innerHTML+=`<li>${crypto}: ${change>0?'Achat':'Vente'} ${volume} à ${change.toFixed(2)}%</li>`;
+    updateBalances();
   }
-
-  function sellNVC() {
-    const amt = parseFloat(document.getElementById('trade-amount').value);
-    if(amt>balance){ alert('Solde insuffisant'); return; }
-    balance -= amt;
-    balanceDisplay.innerText = balance;
-    nvcBalance.innerText = balance;
-    nvcUsd.innerText = (balance*cryptos[3].price).toFixed(2);
-    alert('Vente simulée: '+amt+' NVC');
-  }
-
-  function withdrawNVC() {
-    const amt = parseFloat(document.getElementById('withdraw-amount').value);
-    if(amt>balance){ alert('Solde insuffisant'); return; }
-    balance -= amt;
-    balanceDisplay.innerText = balance;
-    nvcBalance.innerText = balance;
-    nvcUsd.innerText = (balance*cryptos[3].price).toFixed(2);
-    alert('Retrait simulé: '+amt+' NVC');
-  }
+  setTimeout(runAuto,3000);
+}
 </script>
 </body>
 </html>
