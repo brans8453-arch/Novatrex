@@ -49,136 +49,135 @@ body{margin:0;font-family:Poppins;background:#0f1320;color:white;}
 
 <!-- HEADER -->
 <div class="header">
-<div style="display:flex;align-items:center">
-<div class="logo"></div>
-<div>
-<b>NOVATREX</b>
-<div class="devise">Trade the Future Securely</div>
-</div>
-</div>
-<div class="header-right">
-<button class="button-auth" onclick="showAuthModal()"><i class="fas fa-right-to-bracket"></i>Connexion / Créer Compte</button>
-</div>
+  <div style="display:flex;align-items:center">
+    <div class="logo"></div>
+    <div>
+      <b>NOVATREX</b>
+      <div class="devise">Trade the Future Securely</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <button class="button-auth" onclick="showAuthModal()"><i class="fas fa-right-to-bracket"></i>Connexion / Créer Compte</button>
+  </div>
 </div>
 
 <!-- BALANCE -->
 <div class="balance">
-<h4>Balance (USDT)</h4>
-<h1 id="balance">0.00</h1>
-<div class="deposit-btn" onclick="showDeposit()"><i class="fas fa-wallet"></i>Deposit</div>
+  <h4>Balance (USDT)</h4>
+  <h1 id="balance">0.00</h1>
+  <div class="deposit-btn" onclick="showDeposit()"><i class="fas fa-wallet"></i>Deposit</div>
 
-<div class="icon-grid">
-<div onclick="recharge()"><i class="fas fa-arrow-up" style="color:#00e0ff"></i>Recharge</div>
-<div onclick="showWithdraw()"><i class="fas fa-arrow-down" style="color:#ffcc00"></i>Withdraw</div>
-<div onclick="invite()"><i class="fas fa-user-friends" style="color:#00ffcc"></i>Invitation</div>
-<div onclick="cert()"><i class="fas fa-id-badge" style="color:#ff77ff"></i>Certification</div>
-</div>
+  <div class="icon-grid">
+    <div onclick="recharge()"><i class="fas fa-arrow-up" style="color:#00e0ff"></i>Recharge</div>
+    <div onclick="showWithdraw()"><i class="fas fa-arrow-down" style="color:#ffcc00"></i>Withdraw</div>
+    <div onclick="invite()"><i class="fas fa-user-friends" style="color:#00ffcc"></i>Invitation</div>
+    <div onclick="cert()"><i class="fas fa-id-badge" style="color:#ff77ff"></i>Certification</div>
+  </div>
 
-<div class="icon-grid">
-<div><i class="fas fa-tags" style="color:#ffbb00"></i>Offers</div>
-<div><i class="fas fa-globe" style="color:#00e0ff"></i>Ecosystem</div>
-<div><i class="fas fa-cubes" style="color:#ff6600"></i>DeFi</div>
-<div><i class="fas fa-gamepad" style="color:#ff33aa"></i>GameFi</div>
-</div>
+  <div class="icon-grid">
+    <div><i class="fas fa-tags" style="color:#ffbb00"></i>Offers</div>
+    <div><i class="fas fa-globe" style="color:#00e0ff"></i>Ecosystem</div>
+    <div><i class="fas fa-cubes" style="color:#ff6600"></i>DeFi</div>
+    <div><i class="fas fa-gamepad" style="color:#ff33aa"></i>GameFi</div>
+  </div>
 </div>
 
 <!-- BANNER -->
 <div class="banner">
-<h3>One Stop Service For Crypto NOVATREX</h3>
-<p>Trading • Marketing • History</p>
+  <h3>One Stop Service For Crypto NOVATREX</h3>
+  <p>Trading • Marketing • History</p>
 </div>
 
 <!-- REWARD -->
 <div class="reward">
-<div>Reward Center</div>
-<div>More Advantages ↓</div>
+  <div>Reward Center</div>
+  <div>More Advantages ↓</div>
 </div>
 
 <!-- GRAPH -->
 <div class="banner" style="padding:10px;">
-<div id="tradingview_chart"></div>
+  <div id="tradingview_chart"></div>
 </div>
 
 <!-- MARKET -->
 <div class="market">
-<h3>Best Movements</h3>
-<div class="wallet"><i class="fas fa-coins" style="color:#00e0ff"></i>Novacoin <span id="novacoinPrice">1.00</span></div>
-<div class="wallet"><i class="fab fa-bitcoin" style="color:#f7931a"></i>BTC/USDT <span id="btc">Loading...</span></div>
-<div class="wallet"><i class="fab fa-ethereum" style="color:#3c3c3d"></i>ETH/USDT <span id="eth">Loading...</span></div>
+  <h3>Best Movements</h3>
+  <div class="wallet"><i class="fas fa-coins" style="color:#00e0ff"></i>Novacoin <span id="novacoinPrice">1.00</span></div>
+  <div class="wallet"><i class="fab fa-bitcoin" style="color:#f7931a"></i>BTC/USDT <span id="btc">Loading...</span></div>
+  <div class="wallet"><i class="fab fa-ethereum" style="color:#3c3c3d"></i>ETH/USDT <span id="eth">Loading...</span></div>
 </div>
 
 <!-- HISTORY -->
 <div class="history" id="history">
-<h4>Recent Activities</h4>
+  <h4>Recent Activities</h4>
 </div>
 
 <!-- LIVRAISON / SIGNAL -->
 <div id="livraisonPanel">
-<h3>Trading Signals & Referral</h3>
-<div>
-<strong>Next Signal:</strong> <span id="nextSignal">Loading...</span>
-<button class="signal-btn" onclick="tradeSignal()">Trader Maintenant</button>
-</div>
-<div style="margin-top:10px;">
-<h4>Your Referral Link</h4>
-<input id="refLink" style="width:100%;padding:8px;border-radius:6px;border:none;background:#2a2f45;color:white;" readonly>
-<button class="signal-btn" onclick="copyReferral()">Copy Link</button>
-</div>
-<div style="margin-top:10px;" id="teamList">
-<h4>Team / Parrainage</h4>
-<ul id="teamMembers" style="list-style:none;padding-left:0;"></ul>
-</div>
-<div style="margin-top:10px;" id="signalHistoryPanel">
-<h4>Signal History</h4>
-<ul id="signalHistory" style="list-style:none;padding-left:0;"></ul>
-</div>
+  <h3>Trading Signals & Referral</h3>
+  <div>
+    <strong>Next Signal:</strong> <span id="nextSignal">Loading...</span>
+    <button class="signal-btn" onclick="tradeSignal()">Trader Maintenant</button>
+  </div>
+  <div style="margin-top:10px;">
+    <h4>Your Referral Link</h4>
+    <input id="refLink" style="width:100%;padding:8px;border-radius:6px;border:none;background:#2a2f45;color:white;" readonly>
+    <button class="signal-btn" onclick="copyReferral()">Copy Link</button>
+  </div>
+  <div style="margin-top:10px;" id="teamList">
+    <h4>Team / Parrainage</h4>
+    <ul id="teamMembers" style="list-style:none;padding-left:0;"></ul>
+  </div>
+  <div style="margin-top:10px;" id="signalHistoryPanel">
+    <h4>Signal History</h4>
+    <ul id="signalHistory" style="list-style:none;padding-left:0;"></ul>
+  </div>
 </div>
 
 <!-- FOOTER -->
 <div class="footer">
-<div onclick="goHome()"><i class="fas fa-home"></i>Home</div>
-<div onclick="goMarket()"><i class="fas fa-chart-line"></i>Market</div>
-<div onclick="goTrade()"><i class="fas fa-exchange-alt"></i>Trade</div>
-<div onclick="toggleLivraison()"><i class="fas fa-truck"></i>Livraison</div>
-<div onclick="goWallet()"><i class="fas fa-wallet"></i>Wallet</div>
+  <div onclick="goHome()"><i class="fas fa-home"></i>Home</div>
+  <div onclick="goMarket()"><i class="fas fa-chart-line"></i>Market</div>
+  <div onclick="goTrade()"><i class="fas fa-exchange-alt"></i>Trade</div>
+  <div onclick="toggleLivraison()"><i class="fas fa-truck"></i>Livraison</div>
+  <div onclick="goWallet()"><i class="fas fa-wallet"></i>Wallet</div>
 </div>
 
 <!-- MODAL AUTH -->
 <div class="modal" id="authModal">
-<div class="modal-box">
-<div class="auth-tabs">
-<button id="loginTab" class="active" onclick="switchAuth('login')">Connexion</button>
-<button id="registerTab" onclick="switchAuth('register')">Créer Compte</button>
-</div>
-<div id="authContent">
-<input id="authEmail" placeholder="Email">
-<input id="authPass" type="password" placeholder="Password">
-<input id="refCode" placeholder="Referral Code (required)">
-<button onclick="authUser()">Submit</button>
-</div>
-</div>
+  <div class="modal-box">
+    <div class="auth-tabs">
+      <button id="loginTab" class="active" onclick="switchAuth('login')">Connexion</button>
+      <button id="registerTab" onclick="switchAuth('register')">Créer Compte</button>
+    </div>
+    <div id="authContent">
+      <input id="authEmail" placeholder="Email">
+      <input id="authPass" type="password" placeholder="Password">
+      <input id="refCode" placeholder="Referral Code (required)">
+      <button onclick="authUser()">Submit</button>
+    </div>
+  </div>
 </div>
 
 <!-- MODAL DEPOSIT / WITHDRAW -->
 <div class="modal" id="depositModal">
-<div class="modal-box">
-<h3>Deposit USDT</h3>
-<input id="depositAmount" placeholder="Amount">
-<button onclick="deposit()">Confirm</button>
-</div>
+  <div class="modal-box">
+    <h3>Deposit USDT</h3>
+    <input id="depositAmount" placeholder="Amount">
+    <button onclick="deposit()">Confirm</button>
+  </div>
 </div>
 <div class="modal" id="withdrawModal">
-<div class="modal-box">
-<h3>Withdraw USDT</h3>
-<input id="withdrawAmount" placeholder="Amount">
-<button onclick="withdrawConfirm()">Confirm</button>
-</div>
+  <div class="modal-box">
+    <h3>Withdraw USDT</h3>
+    <input id="withdrawAmount" placeholder="Amount">
+    <button onclick="withdrawConfirm()">Confirm</button>
+  </div>
 </div>
 
-<script src="https://s3.tradingview.com/tv.js"></script>
+<!-- SCRIPT COMPLET -->
 <script>
-// — Ici on garde **tout ton JS original** + signaux, referral, historique, balance.
-// Pour éviter que ce message soit encore coupé, je peux te fournir le **JS complet séparément** dans le message suivant, prêt à coller **après </body>**.
+/* --- JS complet ici (copier le code JS que je t'ai envoyé dans le message précédent) --- */
 </script>
 </body>
-                            </html>
+</html>
