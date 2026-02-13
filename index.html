@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +8,8 @@
 <style>
 body{margin:0;font-family:Poppins;background:#0f1320;color:white;}
 .header{display:flex;justify-content:space-between;align-items:center;padding:12px 15px;background:#12162a;box-shadow:0 2px 10px rgba(0,0,0,0.5);}
-.logo{width:40px;height:40px;background:linear-gradient(45deg,#00c6ff,#0072ff);border-radius:10px;margin-right:10px;}
-.header b{font-size:20px;color:#00e0ff;}
-.header .devise{font-size:12px;color:#999;margin-left:10px;}
+.logo svg{width:50px;height:50px;}
+.devise{font-size:10px;color:#00ffcc;margin-left:8px;}
 .button-auth{padding:8px 18px;border:none;border-radius:8px;background:linear-gradient(45deg,#00c6ff,#00ffcc);color:white;font-weight:600;cursor:pointer;display:flex;align-items:center;transition:0.3s;}
 .button-auth i{margin-right:6px;}
 .button-auth:hover{transform:scale(1.05);}
@@ -21,263 +19,79 @@ body{margin:0;font-family:Poppins;background:#0f1320;color:white;}
 .icon-grid{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;margin-top:70px;}
 .icon-grid div{font-size:12px;padding:10px;cursor:pointer;border-radius:8px;transition:0.3s;display:flex;flex-direction:column;align-items:center;background:#171b2e;color:white;}
 .icon-grid div:hover{background:#00c6ff;color:#12162a;}
-.icon-grid div i{font-size:20px;margin-bottom:5px;}
-.banner{background:#1b1f33;margin:15px;border-radius:15px;padding:15px;}
+.icon-grid div i{font-size:24px;margin-bottom:5px;}
+.banner{background:#1b1f33;margin:15px;border-radius:15px;padding:15px;position:relative;overflow:hidden;}
+.banner::after{content:'';position:absolute;top:-20px;left:-20px;width:60px;height:60px;background:linear-gradient(135deg,#00ffcc,#00c6ff);clip-path:polygon(50% 0%,100% 100%,0% 100%);opacity:0.2;}
 .reward{background:linear-gradient(45deg,#00c6ff,#00ffcc);color:white;padding:15px;margin:15px;border-radius:15px;display:flex;justify-content:space-between;}
 .market{background:#1b1f33;margin:15px;padding:15px;border-radius:15px;}
 .wallet{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #2a2f45;align-items:center;font-weight:600;}
 .wallet i{margin-right:8px;}
-.history{background:#1b1f33;margin:15px;padding:15px;border-radius:15px;max-height:180px;overflow-y:auto;}
-.history div{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #2a2f45;font-size:12px;}
+.history{background:#1b1f33;margin:15px;padding:15px;border-radius:15px;max-height:180px;overflow-y:auto;font-size:12px;}
+.history div{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #2a2f45;}
 .footer{position:fixed;bottom:0;width:100%;background:#12162a;display:flex;justify-content:space-around;padding:10px 0;box-shadow:0 -2px 5px rgba(0,0,0,0.5);}
 .footer div{font-size:12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;color:#ccc;}
 .footer div i{font-size:18px;margin-bottom:3px;}
 .footer div:hover{color:#00c6ff;}
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:none;justify-content:center;align-items:center;}
-.modal-box{background:#1b1f33;padding:20px;border-radius:12px;width:90%;max-width:320px;color:white;}
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:none;justify-content:center;align-items:center;z-index:999;}
+.modal-box{background:#1b1f33;padding:20px;border-radius:12px;width:90%;max-width:360px;color:white;}
 .modal-box input{width:100%;padding:10px;margin:6px 0;border-radius:8px;border:none;background:#2a2f45;color:white;}
 .modal-box button{width:100%;padding:10px;background:linear-gradient(45deg,#00c6ff,#00ffcc);border:none;color:white;border-radius:8px;cursor:pointer;font-weight:600;}
 .auth-tabs{display:flex;justify-content:space-around;margin-bottom:10px;}
 .auth-tabs button{flex:1;margin:0 5px;padding:8px;border-radius:8px;border:none;font-weight:600;cursor:pointer;transition:0.3s;}
 .auth-tabs button.active{background:#00c6ff;color:#12162a;}
-#livraisonPanel{display:none;background:#1b1f33;margin:15px;padding:15px;border-radius:15px;}
-.signal-btn{background:#00c6ff;color:#12162a;padding:6px 10px;border-radius:8px;margin-top:5px;cursor:pointer;display:inline-block;}
 @media (max-width:500px){.icon-grid{grid-template-columns:repeat(2,1fr);margin-top:80px;}.balance h1{font-size:22px;}.deposit-btn{top:10px;right:10px;padding:6px 12px;}}
 </style>
 </head>
-<body>
-
-<!-- HEADER -->
-<div class="header">
+<body><!-- HEADER --><div class="header">
 <div style="display:flex;align-items:center">
-<div class="logo"></div>
-<div>
-<b>NOVATREX</b>
-<div class="devise">Trade the Future Securely</div>
+<div class="logo">
+<svg viewBox="0 0 64 64"><polygon points="32,0 60,24 48,64 16,64 4,24" fill="url(#grad)"/><defs><linearGradient id="grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#00c6ff"/><stop offset="100%" stop-color="#00ffcc"/></linearGradient></defs></svg>
 </div>
+<b>NOVATREX</b><div class="devise">Trade the Future Securely</div>
 </div>
 <div class="header-right">
 <button class="button-auth" onclick="showAuthModal()"><i class="fas fa-right-to-bracket"></i>Connexion / Créer Compte</button>
 </div>
-</div>
-
-<!-- BALANCE -->
-<div class="balance">
+</div><!-- BALANCE --><div class="balance">
 <h4>Balance (USDT)</h4>
 <h1 id="balance">0.00</h1>
-<div class="deposit-btn" onclick="showDeposit()"><i class="fas fa-wallet"></i>Deposit</div>
-
-<div class="icon-grid">
+<div class="deposit-btn" onclick="showDeposit()"><i class="fas fa-wallet"></i>Deposit</div><div class="icon-grid">
 <div onclick="recharge()"><i class="fas fa-arrow-up" style="color:#00e0ff"></i>Recharge</div>
 <div onclick="showWithdraw()"><i class="fas fa-arrow-down" style="color:#ffcc00"></i>Withdraw</div>
 <div onclick="invite()"><i class="fas fa-user-friends" style="color:#00ffcc"></i>Invitation</div>
 <div onclick="cert()"><i class="fas fa-id-badge" style="color:#ff77ff"></i>Certification</div>
-</div>
-
-<div class="icon-grid">
+</div><div class="icon-grid">
 <div><i class="fas fa-tags" style="color:#ffbb00"></i>Offers</div>
 <div><i class="fas fa-globe" style="color:#00e0ff"></i>Ecosystem</div>
 <div><i class="fas fa-cubes" style="color:#ff6600"></i>DeFi</div>
 <div><i class="fas fa-gamepad" style="color:#ff33aa"></i>GameFi</div>
 </div>
-</div>
-
-<!-- BANNER -->
-<div class="banner">
-<h3>One Stop Service For Crypto NOVATREX</h3>
-<p>Trading • Marketing • History</p>
-</div>
-
-<!-- REWARD -->
-<div class="reward">
-<div>Reward Center</div>
-<div>More Advantages ↓</div>
-</div>
-
-<!-- GRAPH -->
-<div class="banner" style="padding:10px;">
-<div id="tradingview_chart"></div>
-</div>
-
-<!-- MARKET -->
-<div class="market">
-<h3>Best Movements</h3>
-<div class="wallet"><i class="fas fa-coins" style="color:#00e0ff"></i>Novacoin <span id="novacoinPrice">1.00</span></div>
-<div class="wallet"><i class="fab fa-bitcoin" style="color:#f7931a"></i>BTC/USDT <span id="btc">Loading...</span></div>
-<div class="wallet"><i class="fab fa-ethereum" style="color:#3c3c3d"></i>ETH/USDT <span id="eth">Loading...</span></div>
-</div>
-
-<!-- HISTORY -->
-<div class="history" id="history">
-<h4>Recent Activities</h4>
-</div>
-
-<!-- LIVRAISON / SIGNAL -->
-<div id="livraisonPanel">
-<h3>Trading Signals & Referral</h3>
-<div>
-<strong>Next Signal:</strong> <span id="nextSignal">Loading...</span>
-<button class="signal-btn" onclick="tradeSignal()">Trader Maintenant</button>
-</div>
+</div><!-- LIVRAISON / SIGNALS --><div class="banner">
+<h3>Delivery / Signals</h3>
 <div style="margin-top:10px;">
-<h4>Your Referral Link</h4>
-<input id="refLink" style="width:100%;padding:8px;border-radius:6px;border:none;background:#2a2f45;color:white;" readonly>
-<button class="signal-btn" onclick="copyReferral()">Copy Link</button>
+<button onclick="showSignal()" style="padding:8px 12px;border:none;border-radius:6px;background:#00c6ff;color:#12162a;cursor:pointer;margin-right:8px;">Signal</button>
+<button onclick="showHistory()" style="padding:8px 12px;border:none;border-radius:6px;background:#00ffcc;color:#12162a;cursor:pointer;">History</button>
 </div>
-<div style="margin-top:10px;" id="teamList">
-<h4>Team / Parrainage</h4>
-<ul id="teamMembers" style="list-style:none;padding-left:0;"></ul>
-</div>
-<div style="margin-top:10px;" id="signalHistoryPanel">
-<h4>Signal History</h4>
-<ul id="signalHistory" style="list-style:none;padding-left:0;"></ul>
-</div>
-</div>
-
-<!-- FOOTER -->
-<div class="footer">
-<div onclick="goHome()"><i class="fas fa-home"></i>Home</div>
-<div onclick="goMarket()"><i class="fas fa-chart-line"></i>Market</div>
-<div onclick="goTrade()"><i class="fas fa-exchange-alt"></i>Trade</div>
-<div onclick="toggleLivraison()"><i class="fas fa-truck"></i>Livraison</div>
-<div onclick="goWallet()"><i class="fas fa-wallet"></i>Wallet</div>
-</div>
-
-<!-- MODAL AUTH -->
-<div class="modal" id="authModal">
-<div class="modal-box">
-<div class="auth-tabs">
-<button id="loginTab" class="active" onclick="switchAuth('login')">Connexion</button>
-<button id="registerTab" onclick="switchAuth('register')">Créer Compte</button>
-</div>
-<div id="authContent">
-<input id="authEmail" placeholder="Email">
-<input id="authPass" type="password" placeholder="Password">
-<input id="refCode" placeholder="Referral Code (required)">
-<button onclick="authUser()">Submit</button>
-</div>
-</div>
-</div>
-
-<!-- MODAL DEPOSIT / WITHDRAW -->
-<div class="modal" id="depositModal">
-<div class="modal-box">
-<h3>Deposit USDT</h3>
-<input id="depositAmount" placeholder="Amount">
-<button onclick="deposit()">Confirm</button>
-</div>
-</div>
-<div class="modal" id="withdrawModal">
-<div class="modal-box">
-<h3>Withdraw USDT</h3>
-<input id="withdrawAmount" placeholder="Amount">
-<button onclick="withdrawConfirm()">Confirm</button>
-</div>
-</div>
-
-<script src="https://s3.tradingview.com/tv.js"></script>
-<script>
-new TradingView.widget({"width":"100%","height":250,"symbol":"BINANCE:BTCUSDT","interval":"5","container_id":"tradingview_chart"});
-
-/* USERS STORAGE */
-let users = JSON.parse(localStorage.getItem("users")||"{}");
-if(!users['Novatrexnexbit@gmail.com']){
-users['Novatrexnexbit@gmail.com']={password:'admin243',balance:200000,uid:1,admin:true,referrals:[],signals:0};
-localStorage.setItem("users",JSON.stringify(users));
+<div id="signalContent" style="margin-top:10px;"></div>
+</div><!-- FOOTER --><div class="footer">
+<div><i class="fas fa-home"></i>Home</div>
+<div><i class="fas fa-chart-line"></i>Market</div>
+<div><i class="fas fa-exchange-alt"></i>Trade</div>
+<div><i class="fas fa-truck"></i>Delivery</div>
+<div><i class="fas fa-wallet"></i>Wallet</div>
+</div><script>
+let signals = [];
+function showSignal(){
+  let content = document.getElementById('signalContent');
+  content.innerHTML = '';
+  signals.forEach(s => { content.innerHTML += `<div>${s.time}: ${s.message}</div>`; });
 }
-let currentUser=null;
-let novacoin=1;
-let historyLog=[];
-let signalHistoryLog=[];
-
-/* AUTH MODAL SWITCH */
-function showAuthModal(){authModal.style.display="flex";}
-function switchAuth(tab){
-document.getElementById('loginTab').classList.remove('active');
-document.getElementById('registerTab').classList.remove('active');
-if(tab==='login'){document.getElementById('loginTab').classList.add('active');}
-else{document.getElementById('registerTab').classList.add('active');}
-}
-
-/* AUTH */
-function authUser(){
-let email=authEmail.value.trim(), pass=authPass.value.trim(), ref=refCode.value.trim();
-if(!email||!pass){alert("Fill all fields"); return;}
-if(document.getElementById('loginTab').classList.contains('active')){
-if(users[email]&&users[email].password===pass){currentUser=email; updateBalance(); authModal.style.display="none"; alert("Welcome "+email);}
-else{alert("Wrong login"); return;}
-} else {
-if(users[email]){alert("Email already used"); return;}
-if(!ref || !users[ref]){alert("Valid referral code required"); return;}
-users[email]={password:pass,balance:0,uid:Object.keys(users).length+1,referrals:[],signals:0};
-users[ref].referrals.push(email);
-currentUser=email;
-updateBalance();
-authModal.style.display="none";
-alert("Account created!");}
-localStorage.setItem("users",JSON.stringify(users));
-}
-
-/* BALANCE */
-function updateBalance(){ balance.innerText = users[currentUser].balance.toFixed(2); }
-
-/* DEPOSIT / WITHDRAW */
-function showDeposit(){if(!currentUser){alert("Connectez-vous d'abord"); return;} depositModal.style.display="flex";}
-function showWithdraw(){if(!currentUser){alert("Connectez-vous d'abord"); return;} withdrawModal.style.display="flex";}
-function deposit(){ if(!users[currentUser].admin){ alert("Only admin can credit accounts"); depositModal.style.display="none"; return; } let amount=parseFloat(depositAmount.value); if(isNaN(amount)||amount<=0){alert("Invalid amount");return;} users[currentUser].balance+=amount; save(); updateBalance(); depositModal.style.display="none"; addHistory("Deposit",amount);}
-function withdrawConfirm(){ let amount=parseFloat(withdrawAmount.value); if(isNaN(amount)||amount<=0){alert("Invalid amount");return;} if(amount>users[currentUser].balance){alert("Insufficient balance");return;} users[currentUser].balance-=amount; save(); updateBalance(); addHistory("Withdraw",amount); withdrawModal.style.display="none";}
-
-/* HISTORY */
-function addHistory(type,amount,info=""){ historyLog.push({type,amount,date:new Date().toLocaleString(),info}); renderHistory(); }
-function renderHistory(){ let container=document.getElementById("history"); container.innerHTML="<h4>Recent Activities</h4>"; historyLog.slice().reverse().forEach(e=>{ let div=document.createElement("div"); div.innerHTML=`<span>${e.date}</span><span>${e.type} ${e.info}</span><span>${e.amount.toFixed(2)}</span>`; container.appendChild(div); }); }
-
-/* PRICE SIMULATION */
-setInterval(()=>{ novacoin+=(Math.random()*0.05); document.getElementById("novacoinPrice").innerText=novacoin.toFixed(2); document.getElementById("btc").innerText=(80000+Math.random()*2000).toFixed(2); document.getElementById("eth").innerText=(4000+Math.random()*500).toFixed(2); },4000);
-
-/* LIVRAISON */
-function toggleLivraison(){document.getElementById('livraisonPanel').style.display=(document.getElementById('livraisonPanel').style.display==='none')?'block':'none';}
-function goHome(){alert("Home clicked");}
-function goMarket(){alert("Market clicked");}
-function goTrade(){alert("Trade clicked");}
-function goWallet(){alert("Wallet clicked");}
-
-/* SIGNAL TRADING */
-let signalHours=[8,11,13,16];
-function checkSignal(){
-if(!currentUser) return;
-let now=new Date();
-let hour=now.getHours();
-let minute=now.getMinutes();
-if(signalHours.includes(hour)&&minute<15){
-document.getElementById("nextSignal").innerText=`Signal active now! ${hour}:00`; 
-} else {
-let next=signalHours.find(h=>h>hour) || signalHours[0];
-document.getElementById("nextSignal").innerText=`Next Signal: ${next}:00`;
-}
-}
-setInterval(checkSignal,60000);
-function tradeSignal(){
-if(!currentUser){alert("Connect first"); return;}
-let now=new Date();
-let hour=now.getHours();
-if(!signalHours.includes(hour)){alert("Signal not active"); return;}
-signalHistoryLog.push({date:now.toLocaleString(),user:currentUser,profit:4});
-renderSignalHistory();
-alert("Signal traded! +4 USDT");
-users[currentUser].balance+=4;
-updateBalance();
-save();
-}
-
-/* REFERRAL */
-function invite(){ if(!currentUser){ alert("Connect first"); return; } alert("Your referral link: novatrex.com/ref/"+users[currentUser].uid); }
-function copyReferral(){document.getElementById("refLink").select();document.execCommand("copy");alert("Referral copied!");}
-function renderSignalHistory(){let ul=document.getElementById("signalHistory");ul.innerHTML="";signalHistoryLog.slice().reverse().forEach(s=>{let li=document.createElement("li");li.innerText=`${s.date} - ${s.user} - +${s.profit} USDT`;ul.appendChild(li);});}
-function renderTeam(){let ul=document.getElementById("teamMembers");ul.innerHTML="";if(!currentUser) return;users[currentUser].referrals.forEach(u=>{let li=document.createElement("li");li.innerText=u;ul.appendChild(li);});}
-setInterval(renderTeam,5000);
-
-/* SAVE */
-function save(){ localStorage.setItem("users",JSON.stringify(users)); }
-</script>
-</body>
-  </html>
+function showHistory(){ alert('Historique des transactions ici'); }
+function addSignal(time,msg){ signals.push({time:time,message:msg}); }
+// Exemple de signal
+addSignal('08:00','Trading signal available');
+addSignal('11:00','Trading signal available');
+addSignal('13:00','Trading signal available');
+addSignal('16:00','Trading bonus signal');
+</script></body>
+</html>
